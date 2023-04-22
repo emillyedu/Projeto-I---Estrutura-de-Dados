@@ -42,10 +42,10 @@ class LDE:
         cont = 1
 
         if self.vazia():
-            return -1
+            return None
 
         if (pos < 1) or (pos > self.tamanho()):
-            return -1
+            return None
 
         while cont < pos:
             aux = aux.get_prox()
@@ -58,7 +58,7 @@ class LDE:
         aux = self.inicio
 
         if self.vazia():
-            return -1
+            return None
 
         while aux != None:
             if aux.get_conteudo() == dado:
@@ -66,7 +66,7 @@ class LDE:
             aux = aux.get_prox()
             cont += 1
 
-        return -1
+        return None
 
     def insere_inicio_lista(self, valor):
         novo_no = No(valor)
@@ -164,7 +164,7 @@ class LDE:
             n += 1
 
         if p is None:
-            return -1  # pos. inválida
+            return None  # pos. inválida
 
         dado = p.get_conteudo()
         p.get_ant().set_prox(p.get_prox())
@@ -200,7 +200,7 @@ class LDE:
     def remove(self, pos):
         # Lista vazia
         if self.vazia():
-            return -1
+            return None
         
         # Remoção do elemento da cabeça da lista
         if pos == 1 and self.tamanho() == 1:

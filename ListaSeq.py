@@ -17,20 +17,20 @@ class ListaSeq:
 
     def elemento(self, pos):
         if pos > self.nElementos or pos <= 0:
-            return -1
+            return None
         return self.dados[pos-1]
 
     def posicao_inicial(self, valor):
         for i in range(self.nElementos):
             if self.dados[i] == valor:
                 return i+1
-        return -1
+        return None
 
     def posicao_desloc(self, valor, desloc):
         for i in range(desloc, self.nElementos):
             if self.dados[i] == valor:
                 return i+1
-        return -1
+        return None
 
     def insere(self, pos, valor):
         if self.cheia() or pos > self.nElementos+1 or pos <= 0:
@@ -43,7 +43,7 @@ class ListaSeq:
 
     def remove(self, pos):
         if pos > self.nElementos or pos < 1:
-            return -1
+            return None
         aux = self.dados[pos-1]
         for i in range(pos-1, self.nElementos-1):
             self.dados[i] = self.dados[i+1]

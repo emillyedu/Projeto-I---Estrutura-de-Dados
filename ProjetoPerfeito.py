@@ -6,7 +6,8 @@ from LDE import LDE
 import tkinter.messagebox as messagebox
 import tkinter as tk
 
-
+elemento = 0 
+lista_LDE = LDE()
 
 def tela1():
 
@@ -40,7 +41,7 @@ def tela1():
 
     def remover():
         posicao = int(caixa2.get())
-        if lista.remove(posicao) != -1:
+        if lista.remove(posicao) != None:
             print("Removido com sucesso")
 
             gerar_view()
@@ -53,7 +54,7 @@ def tela1():
     def busca_posicao():
         posicao = int(caixa2.get())
 
-        if lista.elemento(posicao) != -1:
+        if lista.elemento(posicao) != None:
             print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
             messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.elemento(posicao)))        
         else:
@@ -65,9 +66,9 @@ def tela1():
     def busca_valor():
         valor = int(caixa1.get())
 
-        if lista.posicao_inicial(valor) != -1:
-            print("Busca feita com sucesso, a posição é: ", lista.posicao(valor))
-            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao(valor)))
+        if lista.posicao_inicial(valor) != None:
+            print("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor))
+            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor)))
             
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
@@ -92,15 +93,6 @@ def tela1():
 
     caixa2 = tk.Entry(root)
     label_caixa2 = tk.Label(root, text="Insira a posição:")
-
-    ## imagens ##
-
-    #soma = PhotoImage(file="estrutura-dados\projeto\soma.png")
-    #soma = soma.subsample(20, 20)
-    #figura = Label(root, image=soma)
-    #figura.image = soma
-
-    #############
 
     botao1 = tk.Button(root, text="inserir (informe val e pos)", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover (informe posicao)", command= remover, width = 24)
@@ -161,7 +153,7 @@ def tela2():
 
     def remover():
         posicao = int(caixa2.get())
-        if lista.remove(posicao) != -1:
+        if lista.remove(posicao) != None:
             print("Removido com sucesso")
 
             gerar_view()
@@ -174,7 +166,7 @@ def tela2():
     def busca_posicao():
         posicao = int(caixa2.get())
 
-        if lista.elemento(posicao) != -1:
+        if lista.elemento(posicao) != None:
             print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
             messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.elemento(posicao)))        
         else:
@@ -186,7 +178,7 @@ def tela2():
     def busca_valor():
         valor = int(caixa1.get())
 
-        if lista.posicao(valor) != -1:
+        if lista.posicao(valor) != None:
             print("Busca feita com sucesso, a posição é: ", lista.posicao(valor))
             messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao(valor)))
             
@@ -213,15 +205,6 @@ def tela2():
 
     caixa2 = tk.Entry(root)
     label_caixa2 = tk.Label(root, text="Insira a posição:")
-
-    ## imagens ##
-
-    #soma = PhotoImage(file="estrutura-dados\projeto\soma.png")
-    #soma = soma.subsample(20, 20)
-    #figura = Label(root, image=soma)
-    #figura.image = soma
-
-    #############
 
     botao1 = tk.Button(root, text="inserir (informe val e pos)", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover (informe posicao)", command= remover, width = 24)
@@ -250,11 +233,10 @@ def tela2():
     listaview.place(x= 0, y= 250)
     #listaview.pack('bottom')
 
-elemento = 0 
-lista_LDE = LDE()
 def tela3():
     global lista_LDE
 
+    ######################## FUNCOES ###################
     def gerar_view():
         listaview.delete("all")
         
@@ -326,17 +308,19 @@ def tela3():
             messagebox.showerror("Erro", "Erro ao buscar")
         caixa1.delete(0, tk.END)
 
+    ######################## INTERFACE GRAFICA (GUI) ###################
     
     label.config(text="LDE")
     # Removendo os widgets da tela anterior, se existirem
     for widget in root.winfo_children():
         if widget != label:
             widget.destroy()
-    linha = tk.Frame(root, width=720, height=1, bg='black')
+    linha = tk.Frame(root, width=1080, height=1, bg='black')
     linha.place(x=0, y=240)
 
     botoes_iniciais()
-    
+
+    ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################   
     # Criando as caixas de texto
     caixa1 = tk.Entry(root)
     caixa1.place(x=150, y=43)
@@ -356,6 +340,7 @@ def tela3():
     visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12))
     listaview = tk.Canvas(root, width= 1080, height= 480, bg= "white")
 
+    ######################## COMPONENTES (WIDGETS) ###################
     linha.place(x=0, y=240)
 
     caixa1.place(x=300, y=43)
@@ -373,12 +358,21 @@ def tela3():
     listaview.place(x= 0, y= 250)
 
 root = tk.Tk()
+root.resizable(False, False)
 root.geometry("1080x720")
 root.title("Projeto Estrutura de Dados")
 
 # Label para exibir a tela atual
-label = tk.Label(root, text="Tela Inicial")
+label = tk.Label(root, text="Projeto Estrutura de Dados")
 label.pack()
+
+def texto_inicial():
+    projeto = tk.Label(root, text= "Esse projeto visa demonstrar como as listas sequenciais funcionam.", font=("Arial", 12))
+    instrucoes = tk.Label(root, text= "Algumas instruções sobre o programa: ", font=("Arial", 12))
+    instrucao1 = tk.Label(root, text= "Ao trocar de tela (de LSE para LDE, por exemplo), sua lista será excluída.", font=("Arial", 12))
+    projeto.pack()
+    instrucoes.pack()
+    instrucao1.pack()
 
 def botoes_iniciais():
     # Botão para trocar para tela 1
@@ -392,7 +386,8 @@ def botoes_iniciais():
     # Botão para trocar para tela 3
     botao3 = tk.Button(root, text="LDE", command=tela3, width = 12)
     botao3.place(x=0, y=79)
-
+    
+texto_inicial()
 botoes_iniciais()
 
 root.mainloop()

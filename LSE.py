@@ -15,7 +15,6 @@ class No:
     def set_prox(self, prox):
         self.prox = prox
 
-
 class LSE:
     def __init__(self):
         self.cabeca = None
@@ -34,7 +33,7 @@ class LSE:
 
     def elemento(self, pos):
         if self.vazia() or pos < 1 or pos > self.tamanho():
-            return -1
+            return None
 
         aux = self.cabeca
         for i in range(pos - 1):
@@ -44,7 +43,7 @@ class LSE:
 
     def posicao(self, dado):
         if self.vazia():
-            return -1
+            return None
 
         aux = self.cabeca
         cont = 1
@@ -54,7 +53,7 @@ class LSE:
             aux = aux.get_prox()
             cont += 1
 
-        return -1
+        return None
 
     def insere_inicio_lista(self, valor):
         novo_no = No(valor)
@@ -90,7 +89,7 @@ class LSE:
 
     def remove_inicio_lista(self):
         if self.vazia():
-            return -1
+            return None
 
         p = self.cabeca
         valor_removido = p.get_conteudo()
@@ -104,7 +103,7 @@ class LSE:
 
     def remove_na_lista(self, pos):
         if self.vazia() or pos < 1 or pos > self.n_elementos:
-            return -1
+            return None
 
         antecessor = None
         atual = self.cabeca
@@ -126,10 +125,10 @@ class LSE:
     
     def remove(self, pos):
         if self.vazia():
-            return -1
+            return None
         
         if pos <= 0 or pos > self.n_elementos:
-            return -1
+            return None
         
         if pos == 1:
             return self.remove_inicio_lista()
