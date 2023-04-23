@@ -23,7 +23,7 @@ def tela1():
             valor = lista.elemento(posicao)
             x = 200 + posicao*50
             y = 240
-            inserir = "" + str(valor) + " -> "
+            inserir = "- [" + str(valor) + "] -"
             listaview.create_text(x, y, text=inserir, font=("Arial", 12))
 
     def inserir():
@@ -135,7 +135,7 @@ def tela2():
             valor = lista.elemento(posicao)
             x = 200 + posicao*50
             y = 240
-            inserir = "" + str(valor) + " -> "
+            inserir = "  [" + str(valor) + "]   =>"
             listaview.create_text(x, y, text=inserir, font=("Arial", 12))
 
     def inserir():
@@ -244,7 +244,7 @@ def tela3():
             valor = lista_LDE.elemento(posicao)
             x = 200 + posicao*50
             y = 240
-            inserir = "" + str(valor) + " -> "
+            inserir = "<=   [" + str(valor) + "]   =>"
             listaview.create_text(x, y, text=inserir, font=("Arial", 12))
         
     def inserir_LDE():
