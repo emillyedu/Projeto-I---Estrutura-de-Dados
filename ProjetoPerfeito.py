@@ -19,12 +19,28 @@ def tela1():
 
         listaview.delete("all")
         
+       # Defina a largura máxima da tela
+        largura_tela = 1080
+        # Defina a largura de cada item da lista
+        largura_item = 100
+        # Defina a altura da linha de texto
+        altura_linha = 20
+        # Defina as coordenadas x e y iniciais
+        x, y = 50, 30
+        # Loop sobre todas as posições da lista
         for posicao in range(1, lista.tamanho()+1):
             valor = lista.elemento(posicao)
-            x = 200 + posicao*50
-            y = 240
-            inserir = "- [" + str(valor) + "] -"
+            inserir = "-[" + str(valor) + "]-"
+            
+            # Verifique se a posição atual excede a largura da tela
+            if x + largura_item > largura_tela:
+                # Se sim, volte para a esquerda e desça para a próxima linha
+                x = 50
+                y += altura_linha
+            # Crie o texto na tela
             listaview.create_text(x, y, text=inserir, font=("Arial", 12))
+            # Ajuste a coordenada x para o próximo item
+            x += largura_item
 
     def inserir():
         valor = int(caixa1.get())
@@ -131,12 +147,28 @@ def tela2():
 
         listaview.delete("all")
         
+        # Defina a largura máxima da tela
+        largura_tela = 1080
+        # Defina a largura de cada item da lista
+        largura_item = 100
+        # Defina a altura da linha de texto
+        altura_linha = 20
+        # Defina as coordenadas x e y iniciais
+        x, y = 50, 30
+        # Loop sobre todas as posições da lista
         for posicao in range(1, lista.tamanho()+1):
             valor = lista.elemento(posicao)
-            x = 200 + posicao*50
-            y = 240
-            inserir = "  [" + str(valor) + "]   =>"
+            inserir = "[" + str(valor) + "]>"
+            
+            # Verifique se a posição atual excede a largura da tela
+            if x + largura_item > largura_tela:
+                # Se sim, volte para a esquerda e desça para a próxima linha
+                x = 50
+                y += altura_linha
+            # Crie o texto na tela
             listaview.create_text(x, y, text=inserir, font=("Arial", 12))
+            # Ajuste a coordenada x para o próximo item
+            x += largura_item
 
     def inserir():
         valor = int(caixa1.get())
@@ -235,17 +267,35 @@ def tela2():
 
 def tela3():
     global lista_LDE
-
+    
     ######################## FUNCOES ###################
     def gerar_view():
         listaview.delete("all")
         
+        # Defina a largura máxima da tela
+        largura_tela = 1080
+        # Defina a largura de cada item da lista
+        largura_item = 100
+        # Defina a altura da linha de texto
+        altura_linha = 20
+        # Defina as coordenadas x e y iniciais
+        x, y = 50, 30
+        # Loop sobre todas as posições da lista
         for posicao in range(1, lista_LDE.tamanho()+1):
             valor = lista_LDE.elemento(posicao)
-            x = 200 + posicao*50
-            y = 240
-            inserir = "<=   [" + str(valor) + "]   =>"
+            inserir = "<[" + str(valor) + "]>"
+            
+            # Verifique se a posição atual excede a largura da tela
+            if x + largura_item > largura_tela:
+                # Se sim, volte para a esquerda e desça para a próxima linha
+                x = 50
+                y += altura_linha
+            # Crie o texto na tela
             listaview.create_text(x, y, text=inserir, font=("Arial", 12))
+            # Ajuste a coordenada x para o próximo item
+            x += largura_item
+
+
         
     def inserir_LDE():
         global elemento
