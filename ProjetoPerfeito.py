@@ -143,39 +143,56 @@ def tela2():
 
     ######################## FUNCOES ###################
 
-    def gerar_view():
+    def gerar_view(busca):
 
         listaview.delete("all")
         
-        # Defina a largura máxima da tela
-        largura_tela = 1080
-        # Defina a largura de cada item da lista
-        largura_item = 100
-        # Defina a altura da linha de texto
-        altura_linha = 20
-        # Defina as coordenadas x e y iniciais
-        x, y = 50, 30
-        # Loop sobre todas as posições da lista
-        for posicao in range(1, lista.tamanho()+1):
+        square_width = 50
+        square_height = 50  
+        x_gap = 50
+        y_gap = 20
+        max_x = 1000
+        max_y = 420
+        x = x_gap
+        y = y_gap
+
+        # Loop para desenhar os quadrados e as setas
+        for posicao in range(1, lista.tamanho() + 1):
+            # Desenha o quadrado
+
+            text_x = x + square_width / 2
+            text_y = y + square_height / 2
+            max_text_width = square_width - 10
+
+            square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill="blue")
+
             valor = lista.elemento(posicao)
-            inserir = "[" + str(valor) + "]>"
-            
-            # Verifique se a posição atual excede a largura da tela
-            if x + largura_item > largura_tela:
-                # Se sim, volte para a esquerda e desça para a próxima linha
-                x = 50
-                y += altura_linha
-            # Crie o texto na tela
-            listaview.create_text(x, y, text=inserir, font=("Arial", 12))
-            # Ajuste a coordenada x para o próximo item
-            x += largura_item
+            listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
+
+            arrow = listaview.create_line(x+square_width, y+square_height/2, x+square_width+x_gap, y+square_height/2, arrow=tk.LAST)
+            #arrow = listaview.create_line(x+square_width+x_gap, y+square_height/2, x+square_width, y+square_height/2, arrow=tk.LAST)
+
+            # Verifica se o quadrado chegou ao limite horizontal
+            if x + square_width + x_gap > max_x:
+                # Passa para a próxima linha
+                y = y + square_height + y_gap
+                if y > max_y:
+                    return KeyError("Lista muito grande")
+                x = x_gap
+                arrow = listaview.create_line(0, y+square_height/2, x, y+square_height/2, arrow=tk.LAST)
+
+            else:
+                # Move para a direita
+                x = x + square_width + x_gap
+
+        #########################################
 
     def inserir():
         valor = int(caixa1.get())
         posicao = int(caixa2.get())
         if lista.insere(posicao, valor):
             print("Inserido com sucesso")    
-            gerar_view()
+            gerar_view(None)
         else:
             print("Erro ao inserir")
             messagebox.showerror("Erro", "Erro ao inserir")
@@ -244,7 +261,7 @@ def tela2():
     botao4 = tk.Button(root, text="Busca Valor (informe posicao)", command= busca_posicao, width = 24)
     
     visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12))
-    listaview = tk.Canvas(root, width= 1080, height= 480, bg= "white")
+    listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
 
     ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################
 
