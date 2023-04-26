@@ -15,10 +15,10 @@ def tela1():
 
     ######################## FUNCOES ###################
 
-    def gerar_view(busca):
+    def gerar_view(busca, posicao_busca=None):
 
         listaview.delete("all")
-        
+
         square_width = 50
         square_height = 50  
         x_gap = 50
@@ -36,7 +36,15 @@ def tela1():
             text_y = y + square_height / 2
             max_text_width = square_width - 10
 
-            square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill="blue")
+            fill_color = "blue"
+            if posicao == posicao_busca:
+                fill_color = "green"
+
+            valor = lista.elemento(posicao)
+            if valor == busca:  # if element matches the search value, set fill color to green
+                fill_color = "green"
+
+            square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
 
             valor = lista.elemento(posicao)
             listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
@@ -56,6 +64,7 @@ def tela1():
             else:
                 # Move para a direita
                 x = x + square_width + x_gap
+
 
         #########################################
 
@@ -87,13 +96,14 @@ def tela1():
     def busca_posicao():
         posicao = int(caixa2.get())
 
-        if lista.elemento(posicao) != None:
+        if lista.elemento(posicao) is not None:
             print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
-            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.elemento(posicao)))        
+            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.elemento(posicao)))
+            gerar_view(None, posicao)
         else:
             print("Erro ao buscar")
-            messagebox.showerror("Erro", "Erro ao bucar posição")
-            
+            messagebox.showerror("Erro", "Erro ao buscar posição")
+
         caixa2.delete(0, tk.END)
 
     def busca_valor():
@@ -102,7 +112,7 @@ def tela1():
         if lista.posicao_inicial(valor) != None:
             print("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor))
             messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor)))
-            
+            gerar_view(lista.elemento(lista.posicao_inicial(valor)))
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
             messagebox.showerror("Erro", "Erro ao bucar valor")
