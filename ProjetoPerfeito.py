@@ -6,9 +6,6 @@ from LDE import LDE
 import tkinter.messagebox as messagebox
 import tkinter as tk
 
-elemento = 0 
-lista_LDE = LDE()
-
 def tela1():
 
     lista = ListaSeq()
@@ -98,11 +95,11 @@ def tela1():
 
         if lista.elemento(posicao) is not None:
             print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
-            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.elemento(posicao)))
+            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))
             gerar_view(None, posicao)
         else:
             print("Erro ao buscar")
-            messagebox.showerror("Erro", "Erro ao buscar posição")
+            messagebox.showerror("Erro", "Erro ao buscar por posição")
 
         caixa2.delete(0, tk.END)
 
@@ -115,7 +112,7 @@ def tela1():
             gerar_view(lista.elemento(lista.posicao_inicial(valor)))
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
-            messagebox.showerror("Erro", "Erro ao bucar valor")
+            messagebox.showerror("Erro", "Erro ao buscar pelo valor")
             
         caixa1.delete(0, tk.END)
 
@@ -244,10 +241,10 @@ def tela2():
 
         if lista.elemento(posicao) != None:
             print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
-            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.elemento(posicao)))        
+            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))        
         else:
             print("Erro ao buscar")
-            messagebox.showerror("Erro", "Erro ao bucar posição")
+            messagebox.showerror("Erro", "Erro ao buscar por posição")
             
         caixa2.delete(0, tk.END)
 
@@ -260,7 +257,7 @@ def tela2():
             
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
-            messagebox.showerror("Erro", "Erro ao bucar valor")
+            messagebox.showerror("Erro", "Erro ao buscar pelo valor")
             
         caixa1.delete(0, tk.END)
 
@@ -309,132 +306,137 @@ def tela2():
     listaview.place(x= 0, y= 250)
     #listaview.pack('bottom')
 
+
 def tela3():
-    global lista_LDE
-    
+    lista = LDE()
     ######################## FUNCOES ###################
-    def gerar_view():
+
+    def gerar_view(busca, posicao_busca=None):
+
         listaview.delete("all")
-        
-        # Defina a largura máxima da tela
-        largura_tela = 1080
-        # Defina a largura de cada item da lista
-        largura_item = 100
-        # Defina a altura da linha de texto
-        altura_linha = 20
-        # Defina as coordenadas x e y iniciais
-        x, y = 50, 30
-        # Loop sobre todas as posições da lista
-        for posicao in range(1, lista_LDE.tamanho()+1):
-            valor = lista_LDE.elemento(posicao)
-            inserir = "<[" + str(valor) + "]>"
-            
-            # Verifique se a posição atual excede a largura da tela
-            if x + largura_item > largura_tela:
-                # Se sim, volte para a esquerda e desça para a próxima linha
-                x = 50
-                y += altura_linha
-            # Crie o texto na tela
-            listaview.create_text(x, y, text=inserir, font=("Arial", 12))
-            # Ajuste a coordenada x para o próximo item
-            x += largura_item
+
+        square_width = 50
+        square_height = 50  
+        x_gap = 50
+        y_gap = 20
+        max_x = 1000
+        max_y = 420
+        x = x_gap
+        y = y_gap
+
+        # Loop para desenhar os quadrados e as setas
+        for posicao in range(1, lista.tamanho() + 1):
+            # Desenha o quadrado
+
+            text_x = x + square_width / 2
+            text_y = y + square_height / 2
+            max_text_width = square_width - 10
+
+            fill_color = "blue"
+            if posicao == posicao_busca:
+                fill_color = "green"
+
+            valor = lista.elemento(posicao)
+            if valor == busca:  # if element matches the search value, set fill color to green
+                fill_color = "green"
+
+            square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
+
+            valor = lista.elemento(posicao)
+            listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
+
+            arrow = listaview.create_line(x+square_width, y+square_height/2, x+square_width+x_gap, y+square_height/2)
+            #arrow = listaview.create_line(x+square_width+x_gap, y+square_height/2, x+square_width, y+square_height/2, arrow=tk.LAST)
+
+            # Verifica se o quadrado chegou ao limite horizontal
+            if x + square_width + x_gap > max_x:
+                # Passa para a próxima linha
+                y = y + square_height + y_gap
+                if y > max_y:
+                    return KeyError("Lista muito grande")
+                x = x_gap
+                arrow = listaview.create_line(0, y+square_height/2, x, y+square_height/2, arrow=tk.LAST)
+
+            else:
+                # Move para a direita
+                x = x + square_width + x_gap
 
 
+    #########################################
         
-    def inserir_LDE():
-        global elemento
+    def inserir():
         valor = int(caixa1.get())
         posicao = int(caixa2.get())
-        if lista_LDE.insere(posicao, valor):
+        if lista.insere(posicao, valor):
             print("Inserido com sucesso")
             caixa1.delete(0, tk.END)
             caixa2.delete(0, tk.END)
-            elemento=elemento+1
-            gerar_view()
+            gerar_view(None)
         else:
             print("Erro ao inserir")
             messagebox.showerror("Erro", "Erro ao inserir")
 
-    def remover_LDE():
-        global elemento
+    def remover():
         posicao = int(caixa2.get())
-        if posicao > elemento:
-            print("Não existe na lista_LDE")
-            messagebox.showerror("Erro", "Nessa posição não há valor")
-            caixa2.delete(0, tk.END)
-        elif lista_LDE.remove(posicao) > 0:
+        if lista.remove(posicao) != None:
             print("Removido com sucesso")
-            
+            gerar_view(None)
             caixa2.delete(0, tk.END)
-            elemento=elemento-1
-            gerar_view()
         else:
             print("Erro ao remover")
-            messagebox.showerror("Erro", "Erro ao remover")
-    
-    def busca_valor_LDE():
-        global elemento
-        posicao = int(caixa2.get())
+            messagebox.showerror("Erro", "Erro ao remover, posição inválida")
+            caixa2.delete(0, tk.END)
 
-        if posicao > elemento:
-            print("Não existe na lista_LDE")
-            messagebox.showerror("Erro", "Não existe essa posição na lista_LDE")
-        elif lista_LDE.elemento(posicao) > 0:
-            print("Busca feita com sucesso, o valor é: ", lista_LDE.elemento(posicao))
-            messagebox.showerror("Busca feita com sucesso!", "O valor é: ", lista_LDE.elemento(posicao))
-        else:
-            print("Erro ao buscar")
-            messagebox.showerror("Erro", "Erro ao buscar")
-        caixa2.delete(0, tk.END)
-
-    def busca_posicao_LDE():
-        global elemento
+    def busca_valor():
         valor = int(caixa1.get())
 
-        if valor > elemento:
-            print("Não existe na lista_LDE")
-            messagebox.showerror("Erro", "Não existe esse valor na lista_LDE")
-        elif lista_LDE.posicao(valor) > 0:
-            print("Busca feita com sucesso, a posicao é: ", lista_LDE.posicao(valor))
-            messagebox.showerror("Busca feita com sucesso!", "A posicao é: ", lista_LDE.posicao(valor))
+        if lista.posicao(valor) != None:
+            print("Busca feita com sucesso, a posição é: ", lista.posicao(valor))
+            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao(valor)))
+        else:
+            print("Erro ao buscar, valor nao esta na lista ou é inválido")
+            messagebox.showerror("Erro", "Erro ao buscar pelo valor")
+        caixa2.delete(0, tk.END)
+
+    def busca_posicao():
+        posicao = int(caixa2.get())
+
+        if lista.elemento(posicao) != None:
+            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))   
         else:
             print("Erro ao buscar")
-            messagebox.showerror("Erro", "Erro ao buscar")
+            messagebox.showerror("Erro", "Erro ao buscar por posicao")
         caixa1.delete(0, tk.END)
 
+
     ######################## INTERFACE GRAFICA (GUI) ###################
-    
     label.config(text="LDE")
-    # Removendo os widgets da tela anterior, se existirem
+
     for widget in root.winfo_children():
         if widget != label:
             widget.destroy()
-    linha = tk.Frame(root, width=1080, height=1, bg='black')
-    linha.place(x=0, y=240)
 
     botoes_iniciais()
+    ######################## COMPONENTES (WIDGETS) ###################
+    
+    linha = tk.Frame(root, width=1080, height=1, bg='black')
 
-    ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################   
-    # Criando as caixas de texto
     caixa1 = tk.Entry(root)
-    caixa1.place(x=150, y=43)
     label_caixa1 = tk.Label(root, text="Insira o valor:")
-    label_caixa1.place(x=150, y=20)
 
     caixa2 = tk.Entry(root)
-    caixa2.place(x=150, y=86)
     label_caixa2 = tk.Label(root, text="Insira a posição:")
-    label_caixa2.place(x=150, y=63)
 
-    botao1 = tk.Button(root, text="inserir (informe val e pos)", command=inserir_LDE, width= 24)
-    botao2 = tk.Button(root, text="Remover (informe posicao)", command= remover_LDE, width = 24)
-    botao3 = tk.Button(root, text="Busca Posição (informe valor)", command= busca_valor_LDE, width = 24)
-    botao4 = tk.Button(root, text="Busca Valor (informe posicao)", command= busca_posicao_LDE, width = 24)
+    botao1 = tk.Button(root, text="inserir (informe val e pos)", command=inserir, width= 24)
+    botao2 = tk.Button(root, text="Remover (informe posicao)", command= remover, width = 24)
+    botao3 = tk.Button(root, text="Busca Posição (informe valor)", command= busca_valor, width = 24)
+    botao4 = tk.Button(root, text="Busca Valor (informe posicao)", command= busca_posicao, width = 24)
     
     visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12))
-    listaview = tk.Canvas(root, width= 1080, height= 480, bg= "white")
+    listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
 
-    ######################## COMPONENTES (WIDGETS) ###################
+    ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################
+
     linha.place(x=0, y=240)
 
     caixa1.place(x=300, y=43)
@@ -450,6 +452,8 @@ def tela3():
 
     visualizacao.place(x= 360, y=230)
     listaview.place(x= 0, y= 250)
+    #listaview.pack('bottom')
+
 
 root = tk.Tk()
 root.resizable(False, False)
