@@ -331,13 +331,13 @@ def tela3():
             text_y = y + square_height / 2
             max_text_width = square_width - 10
 
-            fill_color = "#EE82EE"
+            fill_color = "#FFA07A"
             if posicao == posicao_busca:
-                fill_color = "#FF00FF"
+                fill_color = "#FF4500"
 
             valor = lista.elemento(posicao)
             if valor == busca:  # if element matches the search value, set fill color
-                fill_color = "#FF00FF"
+                fill_color = "#FF4500"
 
             square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
 
@@ -411,8 +411,8 @@ def tela3():
 
 
     ######################## INTERFACE GRAFICA (GUI) ###################
-    label.config(text="LDE")
-
+    label.config(text="LDE", bg='#FFE4E1')
+    root.config(bg='#FFE4E1')
     for widget in root.winfo_children():
         if widget != label:
             widget.destroy()
@@ -423,17 +423,17 @@ def tela3():
     linha = tk.Frame(root, width=1080, height=1, bg='black')
 
     caixa1 = tk.Entry(root)
-    label_caixa1 = tk.Label(root, text="Insira o valor:")
+    label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#FFE4E1')
 
     caixa2 = tk.Entry(root)
-    label_caixa2 = tk.Label(root, text="Insira a posição:")
+    label_caixa2 = tk.Label(root, text="Insira a posição:", bg='#FFE4E1')
 
     botao1 = tk.Button(root, text="inserir (informe val e pos)", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover (informe posicao)", command= remover, width = 24)
     botao3 = tk.Button(root, text="Busca Posição (informe valor)", command= busca_valor, width = 24)
     botao4 = tk.Button(root, text="Busca Valor (informe posicao)", command= busca_posicao, width = 24)
     
-    visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12))
+    visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12), bg='#FFE4E1')
     listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
 
     ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################
@@ -443,8 +443,8 @@ def tela3():
     caixa1.place(x=300, y=43)
     label_caixa1.place(x=300, y=20)
 
-    caixa2.place(x=300, y=86)
-    label_caixa2.place(x=300, y=65)
+    caixa2.place(x=300, y=100)
+    label_caixa2.place(x=300, y=75)
 
     botao1.place(x=550, y=43)
     botao2.place(x=850, y=43)
