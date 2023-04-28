@@ -241,7 +241,7 @@ def tela2():
 
         if lista.elemento(posicao) != None:
             print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
-            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))        
+            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))
         else:
             print("Erro ao buscar")
             messagebox.showerror("Erro", "Erro ao buscar por posição")
@@ -254,7 +254,6 @@ def tela2():
         if lista.posicao(valor) != None:
             print("Busca feita com sucesso, a posição é: ", lista.posicao(valor))
             messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao(valor)))
-            
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
             messagebox.showerror("Erro", "Erro ao buscar pelo valor")
@@ -332,13 +331,13 @@ def tela3():
             text_y = y + square_height / 2
             max_text_width = square_width - 10
 
-            fill_color = "blue"
+            fill_color = "#EE82EE"
             if posicao == posicao_busca:
-                fill_color = "green"
+                fill_color = "#FF00FF"
 
             valor = lista.elemento(posicao)
-            if valor == busca:  # if element matches the search value, set fill color to green
-                fill_color = "green"
+            if valor == busca:  # if element matches the search value, set fill color
+                fill_color = "#FF00FF"
 
             square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
 
@@ -393,6 +392,7 @@ def tela3():
         if lista.posicao(valor) != None:
             print("Busca feita com sucesso, a posição é: ", lista.posicao(valor))
             messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao(valor)))
+            gerar_view(lista.elemento(lista.posicao_inicial(valor)))
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
             messagebox.showerror("Erro", "Erro ao buscar pelo valor")
@@ -402,7 +402,8 @@ def tela3():
         posicao = int(caixa2.get())
 
         if lista.elemento(posicao) != None:
-            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))   
+            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))
+            gerar_view(None, posicao)    
         else:
             print("Erro ao buscar")
             messagebox.showerror("Erro", "Erro ao buscar por posicao")
