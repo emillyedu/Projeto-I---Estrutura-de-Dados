@@ -117,29 +117,30 @@ def tela1():
         caixa1.delete(0, tk.END)
 
     ######################## INTERFACE GRAFICA (GUI) ###################
-    label.config(text="LSE")
-
+    label.config(text="Lista Sequencial", bg='#E8F8F5')
+    root.config(bg='#E8F8F5')
     for widget in root.winfo_children():
         if widget != label:
             widget.destroy()
 
     botoes_iniciais()
+
     ######################## COMPONENTES (WIDGETS) ###################
     
     linha = tk.Frame(root, width=1080, height=1, bg='black')
 
     caixa1 = tk.Entry(root)
-    label_caixa1 = tk.Label(root, text="Insira o valor:")
+    label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#E8F8F5')
 
     caixa2 = tk.Entry(root)
-    label_caixa2 = tk.Label(root, text="Insira a posição:")
+    label_caixa2 = tk.Label(root, text="Insira a posição:", bg='#E8F8F5')
 
     botao1 = tk.Button(root, text="inserir (informe val e pos)", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover (informe posicao)", command= remover, width = 24)
     botao3 = tk.Button(root, text="Busca Posição (informe valor)", command= busca_valor, width = 24)
     botao4 = tk.Button(root, text="Busca Valor (informe posicao)", command= busca_posicao, width = 24)
     
-    visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12))
+    visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12), bg='#E8F8F5')
     listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
 
     ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################
@@ -149,8 +150,8 @@ def tela1():
     caixa1.place(x=300, y=43)
     label_caixa1.place(x=300, y=20)
 
-    caixa2.place(x=300, y=86)
-    label_caixa2.place(x=300, y=65)
+    caixa2.place(x=300, y=100)
+    label_caixa2.place(x=300, y=75)
 
     botao1.place(x=550, y=43)
     botao2.place(x=850, y=43)
