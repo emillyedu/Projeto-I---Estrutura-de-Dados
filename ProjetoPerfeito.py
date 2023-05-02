@@ -69,14 +69,13 @@ def tela1():
         valor = int(caixa1.get())
         posicao = int(caixa2.get())
         if lista.insere(posicao, valor):
-            print("Inserido com sucesso")    
+            print("Inserido com sucesso")
+            caixa1.delete(0, tk.END)
+            caixa2.delete(0, tk.END)
             gerar_view(None)
         else:
             print("Erro ao inserir")
             messagebox.showerror("Erro", "Erro ao inserir")
-            
-        caixa1.delete(0, tk.END)
-        caixa2.delete(0, tk.END)
 
     def remover():
         posicao = int(caixa2.get())
@@ -94,8 +93,8 @@ def tela1():
         posicao = int(caixa2.get())
 
         if lista.elemento(posicao) is not None:
-            print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
-            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))
+            # print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
+            # messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))
             gerar_view(None, posicao)
         else:
             print("Erro ao buscar")
@@ -107,8 +106,8 @@ def tela1():
         valor = int(caixa1.get())
 
         if lista.posicao_inicial(valor) != None:
-            print("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor))
-            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor)))
+            # print("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor))
+            # messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor)))
             gerar_view(lista.elemento(lista.posicao_inicial(valor)))
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
@@ -216,14 +215,13 @@ def tela2():
         valor = int(caixa1.get())
         posicao = int(caixa2.get())
         if lista.insere(posicao, valor):
-            print("Inserido com sucesso")    
+            print("Inserido com sucesso")
+            caixa1.delete(0, tk.END)
+            caixa2.delete(0, tk.END)
             gerar_view(None)
         else:
             print("Erro ao inserir")
             messagebox.showerror("Erro", "Erro ao inserir")
-            
-        caixa1.delete(0, tk.END)
-        caixa2.delete(0, tk.END)
 
     def remover():
         posicao = int(caixa2.get())
@@ -407,7 +405,7 @@ def tela3():
             gerar_view(None, posicao)    
         else:
             print("Erro ao buscar")
-            messagebox.showerror("Erro", "Erro ao buscar por posicao")
+            messagebox.showerror("Erro", "Erro ao buscar por posição")
         caixa1.delete(0, tk.END)
 
 
@@ -461,10 +459,11 @@ root = tk.Tk()
 root.resizable(False, False)
 root.geometry("1080x720")
 root.title("Projeto Estrutura de Dados")
-
+root.iconbitmap("ci.ico")
 # Label para exibir a tela atual
 label = tk.Label(root, text="Projeto Estrutura de Dados")
 label.pack()
+
 
 def texto_inicial():
     projeto = tk.Label(root, text= "Esse projeto visa demonstrar como as listas sequenciais funcionam.", font=("Arial", 12))
