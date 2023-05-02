@@ -12,6 +12,55 @@ def tela1():
 
     ######################## FUNCOES ###################
 
+    def gerar_view(busca, posicao_busca=None):
+
+        listaview.delete("all")
+
+        square_width = 50
+        square_height = 50  
+        x_gap = 50
+        y_gap = 20
+        max_x = 1000
+        max_y = 420
+        x = x_gap
+        y = y_gap
+
+        # Loop para desenhar os quadrados e as setas
+        for posicao in range(1, lista.tamanho() + 1):
+            # Desenha o quadrado
+
+            text_x = x + square_width / 2
+            text_y = y + square_height / 2
+            max_text_width = square_width - 10
+
+            fill_color = "#4493C7"
+            if posicao == posicao_busca:
+                fill_color = "#44C764"
+
+            valor = lista.elemento(posicao)
+            if valor == busca:  # if element matches the search value, set fill color to green
+                fill_color = "#44C764"
+
+            square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
+
+            valor = lista.elemento(posicao)
+            listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
+
+            arrow = listaview.create_line(x+square_width, y+square_height/2, x+square_width+x_gap, y+square_height/2)
+
+            # Verifica se o quadrado chegou ao limite horizontal
+            if x + square_width + x_gap > max_x:
+                # Passa para a próxima linha
+                y = y + square_height + y_gap
+                if y > max_y:
+                    return KeyError("Lista muito grande")
+                x = x_gap
+                arrow = listaview.create_line(0, y+square_height/2, x, y+square_height/2)
+
+            else:
+                # Move para a direita
+                x = x + square_width + x_gap
+
     def inserir():
         valor = int(caixa1.get())
         posicao = int(caixa2.get())
@@ -19,7 +68,7 @@ def tela1():
             print("Inserido com sucesso")
             caixa1.delete(0, tk.END)
             caixa2.delete(0, tk.END)
-            gerar_view(lista, listaview,None)
+            gerar_view(None)
         else:
             print("Erro ao inserir")
             messagebox.showerror("Erro", "Erro ao inserir")
@@ -29,7 +78,7 @@ def tela1():
         if lista.remove(posicao) != None:
             print("Removido com sucesso")
 
-            gerar_view(lista, listaview,None)
+            gerar_view(None)
         else:
             print("Erro ao remover")
             messagebox.showerror("Erro", "Erro ao remover, posição inválida")
@@ -41,9 +90,7 @@ def tela1():
 
         if lista.elemento(posicao) is not None:
             print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
-            texto_busca = f"{'Busca feita com sucesso, o valor é: '} {lista.elemento(posicao)}"
-            messagebox.showinfo(message=texto_busca)
-            gerar_view(lista, listaview,None, posicao)
+            gerar_view(None, posicao)
         else:
             print("Erro ao buscar")
             messagebox.showerror("Erro", "Erro ao buscar por posição")
@@ -54,9 +101,8 @@ def tela1():
         valor = int(caixa1.get())
 
         if lista.posicao_inicial(valor) != None:
-            # print("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor))
-            # messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor)))
-            gerar_view(lista, listaview,lista.elemento(lista.posicao_inicial(valor)))
+            print("Busca feita com sucesso, a posição é: ", lista.posicao_inicial(valor))
+            gerar_view(lista.elemento(lista.posicao_inicial(valor)))
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
             messagebox.showerror("Erro", "Erro ao buscar pelo valor")
@@ -65,8 +111,8 @@ def tela1():
 
     ######################## INTERFACE GRAFICA (GUI) ###################
     
-    label.config(text="Lista Sequencial", bg='#E8F8F5')
-    root.config(bg='#E8F8F5')
+    label.config(text="Lista Sequencial", bg='#44C7C7')
+    root.config(bg='#44C7C7')
     for widget in root.winfo_children():
         if widget != label:
             widget.destroy()
@@ -78,17 +124,17 @@ def tela1():
     linha = tk.Frame(root, width=1080, height=1, bg='black')
 
     caixa1 = tk.Entry(root)
-    label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#E8F8F5')
+    label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#44C7C7')
 
     caixa2 = tk.Entry(root)
-    label_caixa2 = tk.Label(root, text="Insira a posição:", bg='#E8F8F5')
+    label_caixa2 = tk.Label(root, text="Insira a posição:", bg='#44C7C7')
 
     botao1 = tk.Button(root, text="inserir (informe val e pos)", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover (informe posicao)", command= remover, width = 24)
     botao3 = tk.Button(root, text="Busca Posição (informe valor)", command= busca_valor, width = 24)
     botao4 = tk.Button(root, text="Busca Valor (informe posicao)", command= busca_posicao, width = 24)
     
-    visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12), bg='#E8F8F5')
+    visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12), bg='#44C7C7')
     listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
 
     ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################
@@ -150,7 +196,6 @@ def tela2():
             listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
 
             arrow = listaview.create_line(x+square_width, y+square_height/2, x+square_width+x_gap, y+square_height/2, arrow=tk.LAST)
-            #arrow = listaview.create_line(x+square_width+x_gap, y+square_height/2, x+square_width, y+square_height/2, arrow=tk.LAST)
 
             # Verifica se o quadrado chegou ao limite horizontal
             if x + square_width + x_gap > max_x:
@@ -195,9 +240,7 @@ def tela2():
         posicao = int(caixa2.get())
 
         if lista.elemento(posicao) != None:
-            print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
-            texto_busca = f"{'Busca feita com sucesso, o valor é: '} {lista.elemento(posicao)}"
-            messagebox.showinfo(message=texto_busca)            
+            print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))  
             gerar_view(None, posicao)
         else:
             print("Erro ao buscar")
@@ -210,7 +253,6 @@ def tela2():
 
         if lista.posicao(valor) != None:
             print("Busca feita com sucesso, a posição é: ", lista.posicao(valor))
-            #messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao(valor)))
             gerar_view(valor)
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
@@ -261,7 +303,6 @@ def tela2():
 
     visualizacao.place(x= 360, y=230)
     listaview.place(x= 0, y= 250)
-    #listaview.pack('bottom')
 
 def tela3():
     lista = LDE()
@@ -301,8 +342,7 @@ def tela3():
             valor = lista.elemento(posicao)
             listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
 
-            arrow = listaview.create_line(x+square_width, y+square_height/2, x+square_width+x_gap, y+square_height/2)
-            #arrow = listaview.create_line(x+square_width+x_gap, y+square_height/2, x+square_width, y+square_height/2, arrow=tk.LAST)
+            arrow = listaview.create_line(x+square_width+x_gap, y+square_height/2, x+square_width, y+square_height/2, arrow='both')
 
             # Verifica se o quadrado chegou ao limite horizontal
             if x + square_width + x_gap > max_x:
@@ -311,7 +351,7 @@ def tela3():
                 if y > max_y:
                     return KeyError("Lista muito grande")
                 x = x_gap
-                arrow = listaview.create_line(0, y+square_height/2, x, y+square_height/2, arrow=tk.LAST)
+                arrow = listaview.create_line(0, y+square_height/2, x, y+square_height/2, arrow='both')
 
             else:
                 # Move para a direita
@@ -343,27 +383,26 @@ def tela3():
             messagebox.showerror("Erro", "Erro ao remover, posição inválida")
             caixa2.delete(0, tk.END)
 
+    def busca_posicao():
+        posicao = int(caixa2.get())
+
+        if lista.elemento(posicao) != None:
+            print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
+            gerar_view(None, posicao)    
+        else:
+            print("Erro ao buscar")
+            messagebox.showerror("Erro", "Erro ao buscar por posição")
+        caixa2.delete(0, tk.END)
+
     def busca_valor():
         valor = int(caixa1.get())
 
         if lista.posicao(valor) != None:
             print("Busca feita com sucesso, a posição é: ", lista.posicao(valor))
-            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao(valor)))
-            gerar_view(lista.elemento(lista.posicao_inicial(valor)))
+            gerar_view(lista.elemento(lista.posicao(valor)))
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
             messagebox.showerror("Erro", "Erro ao buscar pelo valor")
-        caixa2.delete(0, tk.END)
-
-    def busca_posicao():
-        posicao = int(caixa2.get())
-
-        if lista.elemento(posicao) != None:
-            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))
-            gerar_view(None, posicao)    
-        else:
-            print("Erro ao buscar")
-            messagebox.showerror("Erro", "Erro ao buscar por posição")
         caixa1.delete(0, tk.END)
 
 
@@ -410,7 +449,6 @@ def tela3():
 
     visualizacao.place(x= 360, y=230)
     listaview.place(x= 0, y= 250)
-    #listaview.pack('bottom')
 
 root = tk.Tk()
 root.resizable(False, False)
@@ -431,7 +469,7 @@ def texto_inicial():
 def botoes_iniciais():
     # Botão para trocar para tela 1
     botao1 = tk.Button(root, text="Lista Sequencial", command=tela1, width = 12)
-    botao1.place(x=0, y=26)
+    botao1.place(x=0, y=27)
 
     # Botão para trocar para tela 2
     botao2 = tk.Button(root, text="LSE", command=tela2, width = 12)
@@ -440,56 +478,6 @@ def botoes_iniciais():
     # Botão para trocar para tela 3
     botao3 = tk.Button(root, text="LDE", command=tela3, width = 12)
     botao3.place(x=0, y=79)
-
-def gerar_view(lista ,listaview, busca, posicao_busca=None):
-
-    listaview.delete("all")
-
-    square_width = 50
-    square_height = 50  
-    x_gap = 50
-    y_gap = 20
-    max_x = 1000
-    max_y = 420
-    x = x_gap
-    y = y_gap
-
-    # Loop para desenhar os quadrados e as setas
-    for posicao in range(1, lista.tamanho() + 1):
-        # Desenha o quadrado
-
-        text_x = x + square_width / 2
-        text_y = y + square_height / 2
-        max_text_width = square_width - 10
-
-        fill_color = "blue"
-        if posicao == posicao_busca:
-            fill_color = "green"
-
-        valor = lista.elemento(posicao)
-        if valor == busca:  # if element matches the search value, set fill color to green
-            fill_color = "green"
-
-        square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
-
-        valor = lista.elemento(posicao)
-        listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
-
-        arrow = listaview.create_line(x+square_width, y+square_height/2, x+square_width+x_gap, y+square_height/2)
-        #arrow = listaview.create_line(x+square_width+x_gap, y+square_height/2, x+square_width, y+square_height/2, arrow=tk.LAST)
-
-        # Verifica se o quadrado chegou ao limite horizontal
-        if x + square_width + x_gap > max_x:
-            # Passa para a próxima linha
-            y = y + square_height + y_gap
-            if y > max_y:
-                return KeyError("Lista muito grande")
-            x = x_gap
-            arrow = listaview.create_line(0, y+square_height/2, x, y+square_height/2, arrow=tk.LAST)
-
-        else:
-            # Move para a direita
-            x = x + square_width + x_gap
     
 texto_inicial()
 botoes_iniciais()
