@@ -115,7 +115,7 @@ def tela2():
 
     ######################## FUNCOES ###################
 
-    def gerar_view(busca):
+    def gerar_view(busca, posicao_busca=None):
 
         listaview.delete("all")
         
@@ -136,7 +136,15 @@ def tela2():
             text_y = y + square_height / 2
             max_text_width = square_width - 10
 
-            square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill="blue")
+            fill_color = "#A884E2"
+            if posicao == posicao_busca:
+                fill_color = "#4F0DB7"
+
+            valor = lista.elemento(posicao)
+            if valor == busca:  # if element matches the search value, set fill color to green
+                fill_color = "#4F0DB7"
+
+            square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
 
             valor = lista.elemento(posicao)
             listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
@@ -188,7 +196,9 @@ def tela2():
 
         if lista.elemento(posicao) != None:
             print("Busca feita com sucesso, o valor é: ", lista.elemento(posicao))
-            messagebox.showinfo(message=("Busca feita com sucesso, o valor é: ", lista.elemento(posicao)))
+            texto_busca = f"{'Busca feita com sucesso, o valor é: '} {lista.elemento(posicao)}"
+            messagebox.showinfo(message=texto_busca)            
+            gerar_view(None, posicao)
         else:
             print("Erro ao buscar")
             messagebox.showerror("Erro", "Erro ao buscar por posição")
@@ -200,7 +210,8 @@ def tela2():
 
         if lista.posicao(valor) != None:
             print("Busca feita com sucesso, a posição é: ", lista.posicao(valor))
-            messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao(valor)))
+            #messagebox.showinfo(message=("Busca feita com sucesso, a posição é: ", lista.posicao(valor)))
+            gerar_view(valor)
         else:
             print("Erro ao buscar, valor nao esta na lista ou é inválido")
             messagebox.showerror("Erro", "Erro ao buscar pelo valor")
@@ -208,8 +219,8 @@ def tela2():
         caixa1.delete(0, tk.END)
 
     ######################## INTERFACE GRAFICA (GUI) ###################
-    label.config(text="LSE")
-
+    label.config(text="LSE", bg='#B68BF9')
+    root.config(bg='#B68BF9')
     for widget in root.winfo_children():
         if widget != label:
             widget.destroy()
@@ -217,20 +228,20 @@ def tela2():
     botoes_iniciais()
     ######################## COMPONENTES (WIDGETS) ###################
     
-    linha = tk.Frame(root, width=1080, height=1, bg='black')
+    linha = tk.Frame(root, width=1080, height=1, bg="black")
 
     caixa1 = tk.Entry(root)
-    label_caixa1 = tk.Label(root, text="Insira o valor:")
+    label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#B68BF9')
 
     caixa2 = tk.Entry(root)
-    label_caixa2 = tk.Label(root, text="Insira a posição:")
+    label_caixa2 = tk.Label(root, text="Insira a posição:", bg='#B68BF9')
 
     botao1 = tk.Button(root, text="inserir (informe val e pos)", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover (informe posicao)", command= remover, width = 24)
     botao3 = tk.Button(root, text="Busca Posição (informe valor)", command= busca_valor, width = 24)
     botao4 = tk.Button(root, text="Busca Valor (informe posicao)", command= busca_posicao, width = 24)
     
-    visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12))
+    visualizacao = tk.Label(root, text= "Lista: ", font=("Arial", 12), bg='#B68BF9')
     listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
 
     ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################
@@ -240,8 +251,8 @@ def tela2():
     caixa1.place(x=300, y=43)
     label_caixa1.place(x=300, y=20)
 
-    caixa2.place(x=300, y=86)
-    label_caixa2.place(x=300, y=65)
+    caixa2.place(x=300, y=100)
+    label_caixa2.place(x=300, y=75)
 
     botao1.place(x=550, y=43)
     botao2.place(x=850, y=43)
@@ -251,7 +262,6 @@ def tela2():
     visualizacao.place(x= 360, y=230)
     listaview.place(x= 0, y= 250)
     #listaview.pack('bottom')
-
 
 def tela3():
     lista = LDE()
