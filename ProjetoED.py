@@ -8,6 +8,7 @@ import tkinter as tk
 
 def tela1():
 
+    TAM_MAX = 21 # tamanho máximo da lista como definido em listaSeq
     lista = ListaSeq()
 
     ######################## FUNCOES ###################
@@ -18,7 +19,7 @@ def tela1():
 
         square_width = 50
         square_height = 50  
-        x_gap = 50
+        x_gap = 0
         y_gap = 20
         max_x = 1000
         max_y = 420
@@ -26,7 +27,7 @@ def tela1():
         y = y_gap
 
         # Loop para desenhar os quadrados e as setas
-        for posicao in range(1, lista.tamanho() + 1):
+        for posicao in range(1, TAM_MAX + 1):
             # Desenha o quadrado
 
             text_x = x + square_width / 2
@@ -34,19 +35,19 @@ def tela1():
             max_text_width = square_width - 10
 
             fill_color = "#4493C7"
-            if posicao == posicao_busca:
+            if posicao == posicao_busca  and posicao != None:
                 fill_color = "#44C764"
 
             valor = lista.elemento(posicao)
-            if valor == busca:  # se o elemento for o buscado alterar a cor da caixa
+            if  valor == None:
+                fill_color = "#B4EDFC"
+            elif valor == busca:  # se o elemento for o buscado alterar a cor da caixa
                 fill_color = "#44C764"
 
             square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
 
             valor = lista.elemento(posicao)
             listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
-
-            arrow = listaview.create_line(x+square_width, y+square_height/2, x+square_width+x_gap, y+square_height/2)
 
             # Verifica se o quadrado chegou ao limite horizontal
             if x + square_width + x_gap > max_x:
@@ -154,6 +155,8 @@ def tela1():
 
     visualizacao.place(x= 360, y=230)
     listaview.place(x= 0, y= 250)
+
+    gerar_view(None)
 
 def tela2():
 

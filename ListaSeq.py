@@ -1,6 +1,6 @@
 class ListaSeq:
 
-    TAM_MAX = 10
+    TAM_MAX = 21
 
     def __init__(self):
         self.dados = [0] * ListaSeq.TAM_MAX
