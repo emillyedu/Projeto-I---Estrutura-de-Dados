@@ -1,1 +1,1 @@
-estrutura de dadoa
+estrutura de dados
