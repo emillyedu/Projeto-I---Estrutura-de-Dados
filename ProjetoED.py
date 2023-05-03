@@ -38,7 +38,7 @@ def tela1():
                 fill_color = "#44C764"
 
             valor = lista.elemento(posicao)
-            if valor == busca:  # if element matches the search value, set fill color to green
+            if valor == busca:  # se o elemento for o buscado alterar a cor da caixa
                 fill_color = "#44C764"
 
             square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
@@ -187,7 +187,7 @@ def tela2():
                 fill_color = "#4F0DB7"
 
             valor = lista.elemento(posicao)
-            if valor == busca:  # if element matches the search value, set fill color to green
+            if valor == busca:  # se o elemento for o buscado alterar a cor da caixa
                 fill_color = "#4F0DB7"
 
             square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
@@ -334,7 +334,7 @@ def tela3():
                 fill_color = "#FF4500"
 
             valor = lista.elemento(posicao)
-            if valor == busca:  # if element matches the search value, set fill color
+            if valor == busca:  # se elemento for o buscado alterar a cor do quadrado
                 fill_color = "#FF4500"
 
             square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
