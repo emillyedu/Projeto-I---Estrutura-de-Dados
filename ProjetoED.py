@@ -2,6 +2,8 @@ from tkinter import *
 from LSE import LSE
 from ListaSeq import ListaSeq
 from LDE import LDE
+from FilaSeq import FilaSeq
+from PilhaSeq import PilhaSeq
 
 import tkinter.messagebox as messagebox
 import tkinter as tk
@@ -453,6 +455,129 @@ def tela3():
     visualizacao.place(x= 360, y=230)
     listaview.place(x= 0, y= 250)
 
+def telaFila():
+    
+    TAM_MAX = 21 # tamanho máximo da lista como definido em listaSeq
+    fila = FilaSeq()
+
+    ######################## FUNCOES ###################
+
+    def gerar_view():
+
+        listaview.delete("all")
+
+        square_width = 50
+        square_height = 50  
+        x_gap = 0
+        y_gap = 20
+        max_x = 1000
+        max_y = 420
+        x = x_gap
+        y = y_gap
+
+        # Loop para desenhar os quadrados e as setas
+        # Desenha o quadrado
+
+        text_x = x + square_width / 2
+        text_y = y + square_height / 2
+        max_text_width = square_width - 10
+
+        fill_color = "#4493C7"
+        # if posicao == posicao_busca  and posicao != None:
+        #     fill_color = "#44C764"
+
+        # valor = fila.elemento(posicao)
+        # if  valor == None:
+        #     fill_color = "#B4EDFC"
+        # elif valor == busca:  # se o elemento for o buscado alterar a cor da caixa
+        #     fill_color = "#44C764"
+
+        square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
+
+        valor = fila.primeiro()
+        listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
+
+        # Verifica se o quadrado chegou ao limite horizontal
+        if x + square_width + x_gap > max_x:
+            # Passa para a próxima linha
+            y = y + square_height + y_gap
+            if y > max_y:
+                return KeyError("Lista muito grande")
+            x = x_gap
+            arrow = listaview.create_line(0, y+square_height/2, x, y+square_height/2)
+
+        else:
+            # Move para a direita
+            x = x + square_width + x_gap
+
+    def inserir():
+        valor = int(caixa1.get())
+        if fila.insere(valor):
+            print("Inserido com sucesso")
+            caixa1.delete(0, tk.END)
+            gerar_view()
+        else:
+            print("Erro ao inserir")
+            messagebox.showerror("Erro", "Erro ao inserir")
+
+    def remover():
+        if fila.remove() != None:
+            print("Removido com sucesso")
+
+            gerar_view()
+        else:
+            print("Erro ao remover")
+            messagebox.showerror("Erro", "Erro ao remover")
+    
+    def primeiro_elemento():
+
+        if fila.primeiro() is not None:
+            print("O primeiro elemento é: ", fila.primeiro())
+            gerar_view()
+        else:
+            print("Erro ao buscar")
+            messagebox.showerror("Erro", "Erro ao buscar por posição")
+
+    ######################## INTERFACE GRAFICA (GUI) ###################
+    
+    label.config(text="Fila Sequencial", bg='#44C7C7')
+    root.config(bg='#44C7C7')
+    for widget in root.winfo_children():
+        if widget != label:
+            widget.destroy()
+
+    botoes_iniciais()
+
+    ######################## COMPONENTES (WIDGETS) ###################
+    
+    linha = tk.Frame(root, width=1080, height=1, bg='black')
+
+    caixa1 = tk.Entry(root)
+    label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#44C7C7')
+
+    botao1 = tk.Button(root, text="inserir (informe valor)", command=inserir, width= 24)
+    botao2 = tk.Button(root, text="Remover (informe)", command= remover, width = 24)
+    botao3 = tk.Button(root, text="Exibe primeiro elemento", command= primeiro_elemento, width = 24)
+    
+    visualizacao = tk.Label(root, text= "Fila: ", font=("Arial", 12), bg='#44C7C7')
+    listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
+
+    ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################
+
+    linha.place(x=0, y=240)
+
+    caixa1.place(x=300, y=43)
+    label_caixa1.place(x=300, y=20)
+
+    botao1.place(x=550, y=43)
+    botao2.place(x=850, y=43)
+    botao3.place(x=550, y=80)
+
+    visualizacao.place(x= 360, y=230)
+    listaview.place(x= 0, y= 250)
+
+    gerar_view(None)
+
 root = tk.Tk()
 root.resizable(False, False)
 root.geometry("1080x720")
@@ -481,6 +606,10 @@ def botoes_iniciais():
     # Botão para trocar para tela 3
     botao3 = tk.Button(root, text="LDE", command=tela3, width = 12)
     botao3.place(x=0, y=79)
+    
+    # Botão para trocar para tela Fila
+    botao3 = tk.Button(root, text="Fila Sequencial", command=telaFila, width = 12)
+    botao3.place(x=0, y=106)
     
 texto_inicial()
 botoes_iniciais()
