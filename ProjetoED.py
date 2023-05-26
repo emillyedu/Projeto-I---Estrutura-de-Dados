@@ -596,7 +596,7 @@ def telaPilha():
 
         square_width = 50
         square_height = 50  
-        x_gap = 50
+        x_gap = 520
         y_gap = 0
         max_x = 1000
         max_y = 450
