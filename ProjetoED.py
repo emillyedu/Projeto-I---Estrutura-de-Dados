@@ -468,7 +468,7 @@ def telaFila():
         
         square_width = 50
         square_height = 50  
-        x_gap = 50
+        x_gap = 0
         y_gap = 20
         max_x = 1000
         max_y = 420
@@ -561,7 +561,7 @@ def telaFila():
 
     botao1 = tk.Button(root, text="inserir na fila", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover primeira posição", command= remover, width = 24)
-    botao4 = tk.Button(root, text="Busca primeira posição", command= busca_posicao, width = 24)
+    botao3 = tk.Button(root, text="Busca primeira posição", command= busca_posicao, width = 24)
     
     visualizacao = tk.Label(root, text= "Fila: ", font=("Arial", 12), bg='#F0E68C')
     listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
@@ -574,8 +574,8 @@ def telaFila():
     label_caixa1.place(x=300, y=20)
 
     botao1.place(x=550, y=43)
-    botao2.place(x=850, y=43)
-    botao4.place(x=850, y=80)
+    botao2.place(x=550, y=80)
+    botao3.place(x=550, y=118)
 
     visualizacao.place(x= 360, y=230)
     listaview.place(x= 0, y= 250)
@@ -591,11 +591,11 @@ def telaPilha():
 
     def gerar_view(posicao_busca=None):
         listaview.delete("all")
-        
+
         square_width = 50
         square_height = 50  
         x_gap = 50
-        y_gap = 20
+        y_gap = 0
         max_x = 1000
         max_y = 450
         x = x_gap
@@ -608,10 +608,10 @@ def telaPilha():
 
             fill_color = "#DEB887"
             if posicao == posicao_busca:
-                fill_color = "#F5DEB3"
+                fill_color = "#A68064"
 
             square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
-
+            
             valor = lista.elemento(posicao)
             listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
 
@@ -681,7 +681,7 @@ def telaPilha():
 
     botao1 = tk.Button(root, text="inserir na pilha", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover da pilha", command= remover, width = 24)
-    botao4 = tk.Button(root, text="Busca topo pilha", command= busca_posicao, width = 24)
+    botao3 = tk.Button(root, text="Busca topo pilha", command= busca_posicao, width = 24)
     
     visualizacao = tk.Label(root, text= "Pilha: ", font=("Arial", 12), bg='#DEB887')
     listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
@@ -694,8 +694,8 @@ def telaPilha():
     label_caixa1.place(x=300, y=20)
 
     botao1.place(x=550, y=43)
-    botao2.place(x=850, y=43)
-    botao4.place(x=850, y=80)
+    botao2.place(x=550, y=80)
+    botao3.place(x=550, y=118)
 
     visualizacao.place(x= 360, y=230)
     listaview.place(x= 0, y= 250)
