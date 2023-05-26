@@ -4,9 +4,11 @@ from ListaSeq import ListaSeq
 from LDE import LDE
 from FilaSeq import FilaSeq
 from PilhaSeq import PilhaSeq
+from ABP import ABP
 
 import tkinter.messagebox as messagebox
 import tkinter as tk
+from tkinter import simpledialog
 
 def tela1():
 
@@ -702,6 +704,125 @@ def telaPilha():
 
     gerar_view()
 
+def telaABP():
+    
+    TAM_MAX = 21 # tamanho máximo da lista como definido em listaSeq
+    arvore = ABP()
+
+    root_x = 500
+    root_y = 100
+    node_radius = 30
+    node_x_distance = 100
+    node_y_distance = 100
+
+    ######################## FUNCOES ###################
+
+    def get_tree_width(T):
+        if T is None:
+            return 0
+        return get_tree_width(T.left) + get_tree_width(T.right) + 1
+    
+    def draw_tree(T, x, y,  level):
+
+        if T is not None:
+            nodes_count = get_tree_width(T)
+            x_left = x - (node_x_distance * (nodes_count - 1) / 2)
+            x_right = x + (node_x_distance * (nodes_count - 1) / 2)
+
+            listaview.create_oval(x - node_radius, y - node_radius,
+                                    x + node_radius, y + node_radius, fill="white")
+            listaview.create_text(x, y, text=str(T.value))
+
+            if T.left is not None:
+                listaview.create_line(x, y + node_radius, x_left, y + node_y_distance - node_radius)
+                draw_tree(T.left, x_left, y + node_y_distance, level + 1)
+
+            if T.right is not None:
+                listaview.create_line(x, y + node_radius, x_right, y + node_y_distance - node_radius)
+                draw_tree(T.right, x_right, y + node_y_distance, level + 1)
+
+
+    def inserir():
+        valor = int(caixa1.get())
+        if arvore.insere(valor):
+            print("Inserido com sucesso")
+            caixa1.delete(0, tk.END)
+            listaview.delete("all")
+            draw_tree(arvore.raiz, root_x, root_y , 1)
+        else:
+            print("Erro ao inserir")
+            messagebox.showerror("Erro", "Erro ao inserir")
+
+    def busca():
+        valor = int(caixa1.get())
+        if valor is not None:
+            node = arvore.busca(arvore.raiz, valor)
+            if node is not None:
+                messagebox.showinfo("Consulta", "O valor {} está na árvore!".format(valor))
+            else:
+                messagebox.showinfo("Consulta", "O valor {} não está na árvore.".format(valor))
+
+    def handle_in_ordem():
+        nodes = []
+        arvore.e_in_ordem(arvore.raiz, nodes)
+        messagebox.showinfo("Percurso In-Ordem", "In-Ordem: " + " ".join(map(str, nodes)))
+
+    def handle_pre_ordem():
+        nodes = []
+        arvore.e_pre_ordem(arvore.raiz, nodes)
+        messagebox.showinfo("Percurso Pré-Ordem", "Pré-Ordem: " + " ".join(map(str, nodes)))
+
+    def handle_pos_ordem():
+        nodes = []
+        arvore.e_pos_ordem(arvore.raiz, nodes)
+        messagebox.showinfo("Percurso Pós-Ordem", "Pós-Ordem: " + " ".join(map(str, nodes)))
+
+    ######################## INTERFACE GRAFICA (GUI) ###################
+
+    label.config(text="ABP", bg='#DEB887')
+    root.config(bg='#DEB887')
+    for widget in root.winfo_children():
+        if widget != label:
+            widget.destroy()
+
+    botoes_iniciais()
+
+    ######################## COMPONENTES (WIDGETS) ###################
+
+    linha = tk.Frame(root, width=1080, height=1, bg='black')
+
+    caixa1 = tk.Entry(root)
+    label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#DEB887')
+
+    botao1 = tk.Button(root, text="inserir na pilha", command=inserir, width=24)
+    botao2 = tk.Button(root, text="Consulta", command=busca, width=24)
+    botao3 = tk.Button(root, text="In-ordem", command=handle_in_ordem, width=24)
+    botao4 = tk.Button(root, text="Pre-ordem", command=handle_pre_ordem, width=24)
+    botao5 = tk.Button(root, text="Pós-ordem", command=handle_pos_ordem, width=24)
+
+    visualizacao = tk.Label(root, text="Pilha: ", font=("Arial", 12), bg='#DEB887')
+    listaview = tk.Canvas(root, width=1080, height=490, bg="white")
+    listaview.pack()
+
+    ######################## POSICAO DOS COMPONENTES (LAYOUT) ###################
+
+    linha.place(x=0, y=240)
+
+    caixa1.place(x=300, y=43)
+    label_caixa1.place(x=300, y=20)
+
+    botao1.place(x=550, y=43)
+    botao2.place(x=550, y=80)
+    botao3.place(x=850, y=43)
+    botao4.place(x=850, y=80)
+    botao5.place(x=850, y=118)
+
+    visualizacao.place(x=360, y=230)
+    listaview.place(x=0, y=250)
+
+    # draw_tree(arvore.raiz, root_x, root_y, 1)
+
+
 root = tk.Tk()
 root.resizable(False, False)
 root.geometry("1080x720")
@@ -738,6 +859,10 @@ def botoes_iniciais():
     # Botão para trocar para tela Fila
     botao4 = tk.Button(root, text="Pilha", command=telaPilha, width = 12)
     botao4.place(x=0, y=131)
+
+    # Botão para trocar para tela Fila
+    botao5 = tk.Button(root, text="ABP", command=telaABP, width = 12)
+    botao5.place(x=0, y=157)
     
 texto_inicial()
 botoes_iniciais()

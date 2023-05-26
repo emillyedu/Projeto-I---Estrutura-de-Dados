@@ -106,3 +106,25 @@ class ABP:
             p.right = novo_no
 
         return True
+    
+
+    # Percurso em ordem (in-order) na árvore
+    def e_in_ordem(self, T, nodes):
+        if T is not None:
+            self.e_in_ordem(T.left, nodes)
+            nodes.append(T.value)
+            self.e_in_ordem(T.right, nodes)
+
+    # Percurso em pré-ordem (pre-order) na árvore
+    def e_pre_ordem(self, T, nodes):
+        if T is not None:
+            nodes.append(T.value)
+            self.e_pre_ordem(T.left, nodes)
+            self.e_pre_ordem(T.right, nodes)
+
+    # Percurso em pós-ordem (post-order) na árvore
+    def e_pos_ordem(self, T, nodes):
+        if T is not None:
+            self.e_pos_ordem(T.left, nodes)
+            self.e_pos_ordem(T.right, nodes)
+            nodes.append(T.value)
