@@ -87,6 +87,12 @@ class ABP:
             self.raiz = novo_no
             return True
 
+        # Verificar altura da árvore
+        altura = self.altura_arvore(self.raiz)
+        if altura > 3:
+            print("Distância máxima entre a raiz e o nó mais baixo excedida")
+            return False
+
         aux = self.raiz
         p = None
         while aux is not None:
@@ -106,25 +112,33 @@ class ABP:
             p.right = novo_no
 
         return True
+
+    def altura_arvore(self, node):
+        if node is None:
+            return 0
+
+        altura_esq = self._altura(node.left)
+        altura_dir = self._altura(node.right)
+        return max(altura_esq, altura_dir) + 1
     
 
     # Percurso em ordem (in-order) na árvore
-    def e_in_ordem(self, T, nodes):
+    def gerar_in_ordem(self, T, nodes):
         if T is not None:
-            self.e_in_ordem(T.left, nodes)
+            self.gerar_in_ordem(T.left, nodes)
             nodes.append(T.value)
-            self.e_in_ordem(T.right, nodes)
+            self.gerar_in_ordem(T.right, nodes)
 
     # Percurso em pré-ordem (pre-order) na árvore
-    def e_pre_ordem(self, T, nodes):
+    def gerar_pre_ordem(self, T, nodes):
         if T is not None:
             nodes.append(T.value)
-            self.e_pre_ordem(T.left, nodes)
-            self.e_pre_ordem(T.right, nodes)
+            self.gerar_pre_ordem(T.left, nodes)
+            self.gerar_pre_ordem(T.right, nodes)
 
     # Percurso em pós-ordem (post-order) na árvore
-    def e_pos_ordem(self, T, nodes):
+    def gerar_pos_ordem(self, T, nodes):
         if T is not None:
-            self.e_pos_ordem(T.left, nodes)
-            self.e_pos_ordem(T.right, nodes)
+            self.gerar_pos_ordem(T.left, nodes)
+            self.gerar_pos_ordem(T.right, nodes)
             nodes.append(T.value)

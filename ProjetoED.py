@@ -706,14 +706,13 @@ def telaPilha():
 
 def telaABP():
     
-    TAM_MAX = 21 # tamanho máximo da lista como definido em listaSeq
     arvore = ABP()
 
-    root_x = 500
+    root_x = 525
     root_y = 100
-    node_radius = 30
-    node_x_distance = 100
-    node_y_distance = 100
+    node_radius = 20
+    node_x_distance = 44
+    node_y_distance = 55
 
     ######################## FUNCOES ###################
 
@@ -749,6 +748,7 @@ def telaABP():
             caixa1.delete(0, tk.END)
             listaview.delete("all")
             draw_tree(arvore.raiz, root_x, root_y , 1)
+            countNos+=1
         else:
             print("Erro ao inserir")
             messagebox.showerror("Erro", "Erro ao inserir")
@@ -764,17 +764,17 @@ def telaABP():
 
     def handle_in_ordem():
         nodes = []
-        arvore.e_in_ordem(arvore.raiz, nodes)
+        arvore.gerar_in_ordem(arvore.raiz, nodes)
         messagebox.showinfo("Percurso In-Ordem", "In-Ordem: " + " ".join(map(str, nodes)))
 
     def handle_pre_ordem():
         nodes = []
-        arvore.e_pre_ordem(arvore.raiz, nodes)
+        arvore.gerar_pre_ordem(arvore.raiz, nodes)
         messagebox.showinfo("Percurso Pré-Ordem", "Pré-Ordem: " + " ".join(map(str, nodes)))
 
     def handle_pos_ordem():
         nodes = []
-        arvore.e_pos_ordem(arvore.raiz, nodes)
+        arvore.gerar_pos_ordem(arvore.raiz, nodes)
         messagebox.showinfo("Percurso Pós-Ordem", "Pós-Ordem: " + " ".join(map(str, nodes)))
 
     ######################## INTERFACE GRAFICA (GUI) ###################
