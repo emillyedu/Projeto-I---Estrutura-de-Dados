@@ -89,7 +89,8 @@ class ABP:
 
         # Verificar altura da árvore
         altura = self.altura_arvore(self.raiz)
-        if altura > 3:
+        print(altura)
+        if altura > 4:
             print("Distância máxima entre a raiz e o nó mais baixo excedida")
             return False
 
@@ -117,8 +118,8 @@ class ABP:
         if node is None:
             return 0
 
-        altura_esq = self._altura(node.left)
-        altura_dir = self._altura(node.right)
+        altura_esq = self.altura_arvore(node.left)
+        altura_dir = self.altura_arvore(node.right)
         return max(altura_esq, altura_dir) + 1
     
 

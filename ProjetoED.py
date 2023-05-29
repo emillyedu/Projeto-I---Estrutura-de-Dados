@@ -9,6 +9,7 @@ from ABP import ABP
 import tkinter.messagebox as messagebox
 import tkinter as tk
 from tkinter import simpledialog
+import time
 
 def tela1():
 
@@ -740,6 +741,75 @@ def telaABP():
                 listaview.create_line(x, y + node_radius, x_right, y + node_y_distance - node_radius)
                 draw_tree(T.right, x_right, y + node_y_distance, level + 1)
 
+    def draw_tree_in_ordem(T, x, y, level):
+        if T is not None:
+            nodes_count = get_tree_width(T)
+            x_left = x - (node_x_distance * (nodes_count - 1) / 2)
+            x_right = x + (node_x_distance * (nodes_count - 1) / 2)
+
+            if T.left is not None:
+                listaview.create_line(x, y + node_radius, x_left, y + node_y_distance - node_radius)
+                draw_tree_in_ordem(T.left, x_left, y + node_y_distance, level + 1)
+
+            # Realiza o percurso in-ordem ilustrando cada nó na sequência in-ordem em verde
+            time.sleep(0.5)  # Delay de 0.5 segundos para visualização
+            listaview.create_oval(x - node_radius, y - node_radius,
+                                x + node_radius, y + node_radius, fill="green")
+            listaview.update()
+            time.sleep(0.5)  # Delay de 0.5 segundos para visualização
+
+            if T.right is not None:
+                listaview.create_line(x, y + node_radius, x_right, y + node_y_distance - node_radius)
+                draw_tree_in_ordem(T.right, x_right, y + node_y_distance, level + 1)
+
+
+    def draw_tree_pre_ordem(T, x, y, level):
+        if T is not None:
+            nodes_count = get_tree_width(T)
+            x_left = x - (node_x_distance * (nodes_count - 1) / 2)
+            x_right = x + (node_x_distance * (nodes_count - 1) / 2)
+
+            # Realiza o percurso pré-ordem ilustrando cada nó na sequência de pré-ordem em verde
+            time.sleep(0.5)  # Delay de 0.5 segundos para visualização
+            listaview.create_oval(x - node_radius, y - node_radius,
+                                x + node_radius, y + node_radius, fill="green")
+            listaview.update()
+            time.sleep(0.5)  # Delay de 0.5 segundos para visualização
+
+            if T.left is not None:
+                listaview.create_line(x, y + node_radius, x_left, y + node_y_distance - node_radius)
+                draw_tree_pre_ordem(T.left, x_left, y + node_y_distance, level + 1)
+
+            if T.right is not None:
+                listaview.create_line(x, y + node_radius, x_right, y + node_y_distance - node_radius)
+                draw_tree_pre_ordem(T.right, x_right, y + node_y_distance, level + 1)
+
+    def draw_tree_pos_ordem(T, x, y, level):
+        if T is not None:
+            nodes_count = get_tree_width(T)
+            x_left = x - (node_x_distance * (nodes_count - 1) / 2)
+            x_right = x + (node_x_distance * (nodes_count - 1) / 2)
+
+            if T.left is not None:
+                listaview.create_line(x, y + node_radius, x_left, y + node_y_distance - node_radius)
+                draw_tree_pos_ordem(T.left, x_left, y + node_y_distance, level + 1)
+
+            if T.right is not None:
+                listaview.create_line(x, y + node_radius, x_right, y + node_y_distance - node_radius)
+                draw_tree_pos_ordem(T.right, x_right, y + node_y_distance, level + 1)
+
+            listaview.create_oval(x - node_radius, y - node_radius,
+                                x + node_radius, y + node_radius, fill="white")
+            listaview.create_text(x, y, text=str(T.value))
+            listaview.update()
+            time.sleep(0.5)  # Delay de 0.5 segundos para visualização
+
+            # Realiza o percurso pós-ordem ilustrando cada nó na sequência de pós-ordem em verde
+            time.sleep(0.5)  # Delay de 0.5 segundos para visualização
+            listaview.create_oval(x - node_radius, y - node_radius,
+                                x + node_radius, y + node_radius, fill="green")
+            listaview.update()
+            time.sleep(0.5)  # Delay de 0.5 segundos para visualização
 
     def inserir():
         valor = int(caixa1.get())
@@ -763,19 +833,25 @@ def telaABP():
                 messagebox.showinfo("Consulta", "O valor {} não está na árvore.".format(valor))
 
     def handle_in_ordem():
+        draw_tree_in_ordem(arvore.raiz, root_x, root_y , 1)
         nodes = []
         arvore.gerar_in_ordem(arvore.raiz, nodes)
         messagebox.showinfo("Percurso In-Ordem", "In-Ordem: " + " ".join(map(str, nodes)))
+        draw_tree(arvore.raiz, root_x, root_y , 1)
 
     def handle_pre_ordem():
+        draw_tree_pre_ordem(arvore.raiz, root_x, root_y , 1)
         nodes = []
         arvore.gerar_pre_ordem(arvore.raiz, nodes)
         messagebox.showinfo("Percurso Pré-Ordem", "Pré-Ordem: " + " ".join(map(str, nodes)))
+        draw_tree(arvore.raiz, root_x, root_y , 1)
 
     def handle_pos_ordem():
+        draw_tree_pos_ordem(arvore.raiz, root_x, root_y , 1)
         nodes = []
         arvore.gerar_pos_ordem(arvore.raiz, nodes)
         messagebox.showinfo("Percurso Pós-Ordem", "Pós-Ordem: " + " ".join(map(str, nodes)))
+        draw_tree(arvore.raiz, root_x, root_y , 1)
 
     ######################## INTERFACE GRAFICA (GUI) ###################
 
