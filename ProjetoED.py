@@ -798,12 +798,6 @@ def telaABP():
                 listaview.create_line(x, y + node_radius, x_right, y + node_y_distance - node_radius)
                 draw_tree_pos_ordem(T.right, x_right, y + node_y_distance, level + 1)
 
-            listaview.create_oval(x - node_radius, y - node_radius,
-                                x + node_radius, y + node_radius, fill="white")
-            listaview.create_text(x, y, text=str(T.value))
-            listaview.update()
-            time.sleep(0.5)  # Delay de 0.5 segundos para visualização
-
             # Realiza o percurso pós-ordem ilustrando cada nó na sequência de pós-ordem em verde
             time.sleep(0.5)  # Delay de 0.5 segundos para visualização
             listaview.create_oval(x - node_radius, y - node_radius,
