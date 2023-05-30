@@ -42,42 +42,6 @@ class ABP:
 
         return None
 
-    # def in_ordem(self, T):
-    #     if T is not None:
-    #         self.in_ordem(T.left)
-    #         print(T.value, end=" ")
-    #         self.in_ordem(T.right)
-
-    # def exibe_in_ordem(self):
-    #     if self.raiz is None:
-    #         print("Arvore vazia")
-    #     else:
-    #         self.in_ordem(self.raiz)
-
-    # def pre_ordem(self, node):
-    #     if node is not None:
-    #         print(node.value, end=" ")
-    #         self.pre_ordem(node.left)
-    #         self.pre_ordem(node.right)
-
-    # def exibe_pre_ordem(self):
-    #     if self.raiz is None:
-    #         print("Arvore vazia")
-    #     else:
-    #         self.pre_ordem(self.raiz)
-
-    # def pos_ordem(self, node):
-    #     if node is not None:
-    #         self.pos_ordem(node.left)
-    #         self.pos_ordem(node.right)
-    #         print(node.value, end=" ")
-
-    # def exibe_pos_ordem(self):
-    #     if self.raiz is None:
-    #         print("Arvore vazia")
-    #     else:
-    #         self.pos_ordem(self.raiz)
-
     def insere(self, valor):
         novo_no = Node(valor)
         novo_no.left = None
@@ -89,7 +53,6 @@ class ABP:
 
         # Verificar altura da árvore
         altura = self.altura_arvore(self.raiz)
-        print(altura)
         if altura > 4:
             print("Distância máxima entre a raiz e o nó mais baixo excedida")
             return False

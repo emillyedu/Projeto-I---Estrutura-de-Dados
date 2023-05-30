@@ -2,8 +2,6 @@ from tkinter import *
 from LSE import LSE
 from ListaSeq import ListaSeq
 from LDE import LDE
-from FilaSeq import FilaSeq
-from PilhaSeq import PilhaSeq
 from ABP import ABP
 
 import tkinter.messagebox as messagebox
@@ -11,7 +9,7 @@ import tkinter as tk
 from tkinter import simpledialog
 import time
 
-def tela1():
+def telaListSeq():
 
     TAM_MAX = 21 # tamanho máximo da lista como definido em listaSeq
     lista = ListaSeq()
@@ -163,7 +161,7 @@ def tela1():
 
     gerar_view(None)
 
-def tela2():
+def telaLSE():
 
     lista = LSE()
 
@@ -312,7 +310,7 @@ def tela2():
     visualizacao.place(x= 360, y=230)
     listaview.place(x= 0, y= 250)
 
-def tela3():
+def telaLDE():
     lista = LDE()
     ######################## FUNCOES ###################
 
@@ -461,14 +459,15 @@ def tela3():
 def telaFila():
     
     TAM_MAX = 21 # tamanho máximo da lista como definido em listaSeq
-    lista = ListaSeq()
+    fila = ListaSeq() # usamos a lista sequencial de apoio para a visualização da fila, ela se comportara como uma fila
 
     ######################## FUNCOES ###################
 
-    def gerar_view(posicao_busca=None):
+    def gerar_view(posicao_busca=None): # Função para gerar a visualização da fila
 
         listaview.delete("all")
         
+        #parametros para exibição dos quadrados da fila
         square_width = 50
         square_height = 50  
         x_gap = 0
@@ -478,10 +477,9 @@ def telaFila():
         x = x_gap
         y = y_gap
 
-        # Loop para desenhar os quadrados e as setas
-        for posicao in range(1, lista.tamanho() + 1):
-            # Desenha o quadrado
-
+        # Loop para desenhar os quadrados
+        for posicao in range(1, fila.tamanho() + 1):
+                        
             text_x = x + square_width / 2
             text_y = y + square_height / 2
             max_text_width = square_width - 10
@@ -490,35 +488,35 @@ def telaFila():
             if posicao == posicao_busca:
                 fill_color = "#FF8C00"
 
+            # Desenha o quadrado
+            
             square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
 
-            valor = lista.elemento(posicao)
+            valor = fila.elemento(posicao)
             listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
-
-            arrow = listaview.create_line(x+square_width, y+square_height/2, x+square_width+x_gap, y+square_height/2, arrow=tk.LAST)
-
+            
             # Verifica se o quadrado chegou ao limite horizontal
             if x + square_width + x_gap > max_x:
                 # Passa para a próxima linha
                 y = y + square_height + y_gap
                 if y > max_y:
-                    return KeyError("Lista muito grande")
+                    return KeyError("Fila muito grande")
                 x = x_gap
-                arrow = listaview.create_line(0, y+square_height/2, x, y+square_height/2, arrow=tk.LAST)
 
             else:
                 # Move para a direita
                 x = x + square_width + x_gap
 
     def inserir():
+        #funcao que insere o valor na fila
         valor = int(caixa1.get())
-        if lista.vazia():
-            lista.insere(1, valor)
-            print("Inserido início")
+        if fila.vazia():
+            fila.insere(1, valor)
+            print("Inserido na fila")
             caixa1.delete(0, tk.END)
             gerar_view()
         else:
-            if lista.insere((lista.tamanho())+1, valor):
+            if fila.insere((fila.tamanho())+1, valor):
                 print("Inserido com sucesso")
                 caixa1.delete(0, tk.END)
                 gerar_view()
@@ -526,20 +524,19 @@ def telaFila():
                 print("Erro ao inserir")
                 messagebox.showerror("Erro", "Erro ao inserir")
 
-    def remover():
-        if lista.remove(1) != None:
+    def remover(): #funcao que remove o valor da fila, sempre do comeco da fila
+        if fila.remove(1) != None:
             print("Removido com sucesso")
-
             gerar_view()
         else:
             print("Erro ao remover")
             messagebox.showerror("Erro", "Erro ao remover, posição inválida")
     
-    def busca_posicao():
-
-        if lista.elemento(1) is not None:
-            messagebox.showinfo("Busca", "O primeiro elemento da Fila é: {}" .format(lista.elemento(1)))
-            print("Busca feita com sucesso, o valor é: ", lista.elemento(1))
+    def exibe_primeiro():
+        #funcao que exibe o valor na primeira posicao da fila
+        if fila.elemento(1) is not None:
+            messagebox.showinfo("Busca", "O primeiro elemento da Fila é: {}" .format(fila.elemento(1)))
+            print("Busca feita com sucesso, o valor é: ", fila.elemento(1))
             gerar_view(1)
         else:
             print("Erro ao buscar")
@@ -564,7 +561,7 @@ def telaFila():
 
     botao1 = tk.Button(root, text="inserir na fila", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover primeira posição", command= remover, width = 24)
-    botao3 = tk.Button(root, text="Busca primeira posição", command= busca_posicao, width = 24)
+    botao3 = tk.Button(root, text="Busca primeira posição", command= exibe_primeiro, width = 24)
     
     visualizacao = tk.Label(root, text= "Fila: ", font=("Arial", 12), bg='#F0E68C')
     listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
@@ -588,13 +585,16 @@ def telaFila():
 def telaPilha():
     
     TAM_MAX = 8 # tamanho máximo da lista como definido em listaSeq
-    lista = ListaSeq()
+    pilha = ListaSeq() # usamos a lista sequencial de apoio para a visualização da pilha, ela se comportara como uma pilha
 
     ######################## FUNCOES ###################
 
     def gerar_view(posicao_busca=None):
+        
+        #funcao que gera a visualizacao da pilha
         listaview.delete("all")
 
+        #parametros para desenhar os quadrados
         square_width = 50
         square_height = 50  
         x_gap = 520
@@ -604,7 +604,8 @@ def telaPilha():
         x = x_gap
         y = max_y - square_height - y_gap  # Inicializa a posição y no limite máximo inferior
 
-        for posicao in range(1, lista.tamanho() + 1):
+        for posicao in range(1, pilha.tamanho() + 1):
+            #laço que percorre a pilha e desenha os quadrados
             text_x = x + square_width / 2
             text_y = y + square_height / 2
             max_text_width = square_width - 10
@@ -613,36 +614,35 @@ def telaPilha():
             if posicao == posicao_busca:
                 fill_color = "#A68064"
 
+            #exibe o quadrado e o valor
             square = listaview.create_rectangle(x, y, x+square_width, y+square_height, fill=fill_color)
-            
-            valor = lista.elemento(posicao)
+            valor = pilha.elemento(posicao)
             listaview.create_text(text_x, text_y, text=str(valor), width=max_text_width)
-
-            arrow = listaview.create_line(x+square_width/2, y, x+square_width/2, y-y_gap, arrow=tk.LAST)
 
             if y - square_height - y_gap < 0:  # Verifica se chegou ao limite superior
                 x = x + square_width + x_gap
                 if x > max_x:
                     return KeyError("Lista muito grande")
                 y = max_y - square_height - y_gap
-                arrow = listaview.create_line(x+square_width/2, max_y, x+square_width/2, y+square_height, arrow=tk.LAST)
             else:
                 y = y - square_height - y_gap
 
-
+    #inserir valores na pilha
     def inserir():
         valor = int(caixa1.get())
-        if lista.tamanho() >= TAM_MAX:
+        if pilha.tamanho() >= TAM_MAX:
             print("Erro ao inserir")
             messagebox.showerror("Erro", "Erro ao inserir")
         else:
-            if lista.vazia():
-                lista.insere(1, valor)
+            #se a pilha estiver vazia, insere o valor no primeiro lugar
+            if pilha.vazia():
+                pilha.insere(1, valor)
                 print("Inserido início")
                 caixa1.delete(0, tk.END)
                 gerar_view()
             else:
-                if lista.insere((lista.tamanho())+1, valor):
+                #insere o valor no topo da pilha sempre
+                if pilha.insere((pilha.tamanho())+1, valor):
                     print("Inserido com sucesso")
                     caixa1.delete(0, tk.END)
                     gerar_view()
@@ -650,8 +650,9 @@ def telaPilha():
                     print("Erro ao inserir")
                     messagebox.showerror("Erro", "Erro ao inserir")
 
+    #remove sempre o ultimo elemento da pilha
     def remover():
-        if lista.remove(lista.tamanho()) != None:
+        if pilha.remove(pilha.tamanho()) != None:
             print("Removido com sucesso")
 
             gerar_view()
@@ -659,12 +660,13 @@ def telaPilha():
             print("Erro ao remover")
             messagebox.showerror("Erro", "Erro ao remover, posição inválida")
     
+    #informa qual o valor que está no topo da pilha por meio de busca
     def busca_posicao():
 
-        if lista.elemento(lista.tamanho()) is not None:
-            messagebox.showinfo("Busca", "O topo da pilha é: {}" .format(lista.elemento(lista.tamanho())))
-            print("Busca feita com sucesso, o valor é: ", lista.elemento(lista.tamanho()))
-            gerar_view(lista.tamanho())
+        if pilha.elemento(pilha.tamanho()) is not None:
+            messagebox.showinfo("Busca", "O topo da pilha é: {}" .format(pilha.elemento(pilha.tamanho())))
+            print("Busca feita com sucesso, o valor é: ", pilha.elemento(pilha.tamanho()))
+            gerar_view(pilha.tamanho())
         else:
             print("Erro ao buscar")
             messagebox.showerror("Erro", "Erro ao buscar por posição")
@@ -726,6 +728,7 @@ def telaABP():
             return 0
         return get_tree_width(T.left) + get_tree_width(T.right) + 1
     
+    #Desenha a arvore conforme os valores inseridos
     def draw_tree(T, x, y,  level):
 
         if T is not None:
@@ -733,6 +736,7 @@ def telaABP():
             x_left = x - (node_x_distance * (nodes_count - 1) / 2)
             x_right = x + (node_x_distance * (nodes_count - 1) / 2)
 
+            #desenha o no com o valor da arvore 
             listaview.create_oval(x - node_radius, y - node_radius,
                                     x + node_radius, y + node_radius, fill="white")
             listaview.create_text(x, y, text=str(T.value))
@@ -745,6 +749,7 @@ def telaABP():
                 listaview.create_line(x, y + node_radius, x_right, y + node_y_distance - node_radius)
                 draw_tree(T.right, x_right, y + node_y_distance, level + 1)
 
+    #Colore na árvore os valores de forma in fordem ao decorrer do tempo
     def draw_tree_in_ordem(T, x, y, level):
         if T is not None:
             nodes_count = get_tree_width(T)
@@ -758,7 +763,7 @@ def telaABP():
             # Realiza o percurso in-ordem ilustrando cada nó na sequência in-ordem em verde
             time.sleep(0.5)  # Delay de 0.5 segundos para visualização
             listaview.create_oval(x - node_radius, y - node_radius,
-                                x + node_radius, y + node_radius, fill="green")
+                                x + node_radius, y + node_radius, fill="#55E15E")
             listaview.update()
             time.sleep(0.5)  # Delay de 0.5 segundos para visualização
 
@@ -766,7 +771,7 @@ def telaABP():
                 listaview.create_line(x, y + node_radius, x_right, y + node_y_distance - node_radius)
                 draw_tree_in_ordem(T.right, x_right, y + node_y_distance, level + 1)
 
-
+    #Colore na árvore os valores de forma pre fordem ao decorrer do tempo
     def draw_tree_pre_ordem(T, x, y, level):
         if T is not None:
             nodes_count = get_tree_width(T)
@@ -776,7 +781,7 @@ def telaABP():
             # Realiza o percurso pré-ordem ilustrando cada nó na sequência de pré-ordem em verde
             time.sleep(0.5)  # Delay de 0.5 segundos para visualização
             listaview.create_oval(x - node_radius, y - node_radius,
-                                x + node_radius, y + node_radius, fill="green")
+                                x + node_radius, y + node_radius, fill="#55E15E")
             listaview.update()
             time.sleep(0.5)  # Delay de 0.5 segundos para visualização
 
@@ -787,7 +792,8 @@ def telaABP():
             if T.right is not None:
                 listaview.create_line(x, y + node_radius, x_right, y + node_y_distance - node_radius)
                 draw_tree_pre_ordem(T.right, x_right, y + node_y_distance, level + 1)
-
+                
+    #Colore na árvore os valores de forma pos fordem ao decorrer do tempo
     def draw_tree_pos_ordem(T, x, y, level):
         if T is not None:
             nodes_count = get_tree_width(T)
@@ -805,10 +811,11 @@ def telaABP():
             # Realiza o percurso pós-ordem ilustrando cada nó na sequência de pós-ordem em verde
             time.sleep(0.5)  # Delay de 0.5 segundos para visualização
             listaview.create_oval(x - node_radius, y - node_radius,
-                                x + node_radius, y + node_radius, fill="green")
+                                x + node_radius, y + node_radius, fill="#55E15E")
             listaview.update()
             time.sleep(0.5)  # Delay de 0.5 segundos para visualização
 
+    #funcao para inserir os valores na arvore
     def inserir():
         valor = int(caixa1.get())
         if arvore.insere(valor):
@@ -816,20 +823,23 @@ def telaABP():
             caixa1.delete(0, tk.END)
             listaview.delete("all")
             draw_tree(arvore.raiz, root_x, root_y , 1)
-            countNos+=1
         else:
             print("Erro ao inserir")
             messagebox.showerror("Erro", "Erro ao inserir")
 
+    #funcão para consultar se o valor está na arvore ou não
     def busca():
         valor = int(caixa1.get())
+        #se o valor definido não for nulo, buscará na arvore
         if valor is not None:
             node = arvore.busca(arvore.raiz, valor)
+            #se o valor não for nulo, ele está na arvore
             if node is not None:
                 messagebox.showinfo("Consulta", "O valor {} está na árvore!".format(valor))
             else:
                 messagebox.showinfo("Consulta", "O valor {} não está na árvore.".format(valor))
 
+    #funcao que é responsável por colorir a arvore na sequencia in ordem, e após isso mostrar os valores em ordem em uma nova tela
     def handle_in_ordem():
         draw_tree_in_ordem(arvore.raiz, root_x, root_y , 1)
         nodes = []
@@ -837,6 +847,7 @@ def telaABP():
         messagebox.showinfo("Percurso In-Ordem", "In-Ordem: " + " ".join(map(str, nodes)))
         draw_tree(arvore.raiz, root_x, root_y , 1)
 
+    #funcao que é responsável por colorir a arvore na sequencia pre ordem, e após isso mostrar os valores em ordem em uma nova tela
     def handle_pre_ordem():
         draw_tree_pre_ordem(arvore.raiz, root_x, root_y , 1)
         nodes = []
@@ -844,6 +855,7 @@ def telaABP():
         messagebox.showinfo("Percurso Pré-Ordem", "Pré-Ordem: " + " ".join(map(str, nodes)))
         draw_tree(arvore.raiz, root_x, root_y , 1)
 
+    #funcao que é responsável por colorir a arvore na sequencia pos ordem, e após isso mostrar os valores em ordem em uma nova tela
     def handle_pos_ordem():
         draw_tree_pos_ordem(arvore.raiz, root_x, root_y , 1)
         nodes = []
@@ -853,8 +865,8 @@ def telaABP():
 
     ######################## INTERFACE GRAFICA (GUI) ###################
 
-    label.config(text="ABP", bg='#DEB887')
-    root.config(bg='#DEB887')
+    label.config(text="ABP", bg='#52F78C')
+    root.config(bg='#52F78C')
     for widget in root.winfo_children():
         if widget != label:
             widget.destroy()
@@ -866,7 +878,7 @@ def telaABP():
     linha = tk.Frame(root, width=1080, height=1, bg='black')
 
     caixa1 = tk.Entry(root)
-    label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#DEB887')
+    label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#52F78C')
 
     botao1 = tk.Button(root, text="inserir na ABP", command=inserir, width=24)
     botao2 = tk.Button(root, text="Consulta", command=busca, width=24)
@@ -874,7 +886,7 @@ def telaABP():
     botao4 = tk.Button(root, text="Pre-ordem", command=handle_pre_ordem, width=24)
     botao5 = tk.Button(root, text="Pós-ordem", command=handle_pos_ordem, width=24)
 
-    visualizacao = tk.Label(root, text="ABP: ", font=("Arial", 12), bg='#DEB887')
+    visualizacao = tk.Label(root, text="ABP: ", font=("Arial", 12), bg='#52F78C')
     listaview = tk.Canvas(root, width=1080, height=490, bg="white")
     listaview.pack()
 
@@ -894,13 +906,12 @@ def telaABP():
     visualizacao.place(x=360, y=230)
     listaview.place(x=0, y=250)
 
-
+############# BASE DO PROGRAMA, TELA INICIAL E BOTÕES PADRÕES #############
 
 root = tk.Tk()
 root.resizable(False, False)
 root.geometry("1080x720")
 root.title("Projeto Estrutura de Dados")
-#root.iconbitmap("ci.ico")
 label = tk.Label(root, text="Projeto Estrutura de Dados", font=("Arial", 22, 'bold'), padx=10, pady=10, anchor="center")
 label.pack()
 
@@ -914,15 +925,15 @@ def texto_inicial():
 
 def botoes_iniciais():
     # Botão para trocar para tela 1
-    botao1 = tk.Button(root, text="Lista Sequencial", command=tela1, width = 12)
+    botao1 = tk.Button(root, text="Lista Sequencial", command=telaListSeq, width = 12)
     botao1.place(x=0, y=27)
 
     # Botão para trocar para tela 2
-    botao2 = tk.Button(root, text="LSE", command=tela2, width = 12)
+    botao2 = tk.Button(root, text="LSE", command=telaLSE, width = 12)
     botao2.place(x=0, y=53)
 
     # Botão para trocar para tela 3
-    botao3 = tk.Button(root, text="LDE", command=tela3, width = 12)
+    botao3 = tk.Button(root, text="LDE", command=telaLDE, width = 12)
     botao3.place(x=0, y=79)
     
     # Botão para trocar para tela Fila
