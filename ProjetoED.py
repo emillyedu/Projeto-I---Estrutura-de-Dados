@@ -661,7 +661,7 @@ def telaPilha():
             messagebox.showerror("Erro", "Erro ao remover, posição inválida")
     
     #informa qual o valor que está no topo da pilha por meio de busca
-    def busca_posicao():
+    def buca_topo():
 
         if pilha.elemento(pilha.tamanho()) is not None:
             messagebox.showinfo("Busca", "O topo da pilha é: {}" .format(pilha.elemento(pilha.tamanho())))
@@ -690,7 +690,7 @@ def telaPilha():
 
     botao1 = tk.Button(root, text="inserir na pilha", command=inserir, width= 24)
     botao2 = tk.Button(root, text="Remover da pilha", command= remover, width = 24)
-    botao3 = tk.Button(root, text="Busca topo pilha", command= busca_posicao, width = 24)
+    botao3 = tk.Button(root, text="Busca topo pilha", command= buca_topo, width = 24)
     
     visualizacao = tk.Label(root, text= "Pilha: ", font=("Arial", 12), bg='#DEB887')
     listaview = tk.Canvas(root, width= 1080, height= 490, bg= "white")
