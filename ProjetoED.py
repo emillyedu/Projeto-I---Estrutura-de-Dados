@@ -830,6 +830,7 @@ def telaABP():
     #funcão para consultar se o valor está na arvore ou não
     def busca():
         valor = int(caixa1.get())
+        caixa1.delete(0, tk.END)
         #se o valor definido não for nulo, buscará na arvore
         if valor is not None:
             node = arvore.busca(arvore.raiz, valor)
