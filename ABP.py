@@ -42,41 +42,41 @@ class ABP:
 
         return None
 
-    def in_ordem(self, T):
-        if T is not None:
-            self.in_ordem(T.left)
-            print(T.value, end=" ")
-            self.in_ordem(T.right)
+    # def in_ordem(self, T):
+    #     if T is not None:
+    #         self.in_ordem(T.left)
+    #         print(T.value, end=" ")
+    #         self.in_ordem(T.right)
 
-    def exibe_in_ordem(self):
-        if self.raiz is None:
-            print("Arvore vazia")
-        else:
-            self.in_ordem(self.raiz)
+    # def exibe_in_ordem(self):
+    #     if self.raiz is None:
+    #         print("Arvore vazia")
+    #     else:
+    #         self.in_ordem(self.raiz)
 
-    def pre_ordem(self, node):
-        if node is not None:
-            print(node.value, end=" ")
-            self.pre_ordem(node.left)
-            self.pre_ordem(node.right)
+    # def pre_ordem(self, node):
+    #     if node is not None:
+    #         print(node.value, end=" ")
+    #         self.pre_ordem(node.left)
+    #         self.pre_ordem(node.right)
 
-    def exibe_pre_ordem(self):
-        if self.raiz is None:
-            print("Arvore vazia")
-        else:
-            self.pre_ordem(self.raiz)
+    # def exibe_pre_ordem(self):
+    #     if self.raiz is None:
+    #         print("Arvore vazia")
+    #     else:
+    #         self.pre_ordem(self.raiz)
 
-    def pos_ordem(self, node):
-        if node is not None:
-            self.pos_ordem(node.left)
-            self.pos_ordem(node.right)
-            print(node.value, end=" ")
+    # def pos_ordem(self, node):
+    #     if node is not None:
+    #         self.pos_ordem(node.left)
+    #         self.pos_ordem(node.right)
+    #         print(node.value, end=" ")
 
-    def exibe_pos_ordem(self):
-        if self.raiz is None:
-            print("Arvore vazia")
-        else:
-            self.pos_ordem(self.raiz)
+    # def exibe_pos_ordem(self):
+    #     if self.raiz is None:
+    #         print("Arvore vazia")
+    #     else:
+    #         self.pos_ordem(self.raiz)
 
     def insere(self, valor):
         novo_no = Node(valor)
@@ -123,21 +123,21 @@ class ABP:
         return max(altura_esq, altura_dir) + 1
     
 
-    # Percurso em ordem (in-order) na árvore
+    # Percurso em ordem (in-order) na árvore para ilustração
     def gerar_in_ordem(self, T, nodes):
         if T is not None:
             self.gerar_in_ordem(T.left, nodes)
             nodes.append(T.value)
             self.gerar_in_ordem(T.right, nodes)
 
-    # Percurso em pré-ordem (pre-order) na árvore
+    # Percurso em pré-ordem (pre-order) na árvore para ilustração
     def gerar_pre_ordem(self, T, nodes):
         if T is not None:
             nodes.append(T.value)
             self.gerar_pre_ordem(T.left, nodes)
             self.gerar_pre_ordem(T.right, nodes)
 
-    # Percurso em pós-ordem (post-order) na árvore
+    # Percurso em pós-ordem (post-order) na árvore para ilustração
     def gerar_pos_ordem(self, T, nodes):
         if T is not None:
             self.gerar_pos_ordem(T.left, nodes)

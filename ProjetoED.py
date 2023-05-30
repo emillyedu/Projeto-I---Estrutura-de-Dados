@@ -587,7 +587,7 @@ def telaFila():
 
 def telaPilha():
     
-    TAM_MAX = 21 # tamanho máximo da lista como definido em listaSeq
+    TAM_MAX = 8 # tamanho máximo da lista como definido em listaSeq
     lista = ListaSeq()
 
     ######################## FUNCOES ###################
@@ -632,19 +632,23 @@ def telaPilha():
 
     def inserir():
         valor = int(caixa1.get())
-        if lista.vazia():
-            lista.insere(1, valor)
-            print("Inserido início")
-            caixa1.delete(0, tk.END)
-            gerar_view()
+        if lista.tamanho() >= TAM_MAX:
+            print("Erro ao inserir")
+            messagebox.showerror("Erro", "Erro ao inserir")
         else:
-            if lista.insere((lista.tamanho())+1, valor):
-                print("Inserido com sucesso")
+            if lista.vazia():
+                lista.insere(1, valor)
+                print("Inserido início")
                 caixa1.delete(0, tk.END)
                 gerar_view()
             else:
-                print("Erro ao inserir")
-                messagebox.showerror("Erro", "Erro ao inserir")
+                if lista.insere((lista.tamanho())+1, valor):
+                    print("Inserido com sucesso")
+                    caixa1.delete(0, tk.END)
+                    gerar_view()
+                else:
+                    print("Erro ao inserir")
+                    messagebox.showerror("Erro", "Erro ao inserir")
 
     def remover():
         if lista.remove(lista.tamanho()) != None:
@@ -864,13 +868,13 @@ def telaABP():
     caixa1 = tk.Entry(root)
     label_caixa1 = tk.Label(root, text="Insira o valor:", bg='#DEB887')
 
-    botao1 = tk.Button(root, text="inserir na pilha", command=inserir, width=24)
+    botao1 = tk.Button(root, text="inserir na ABP", command=inserir, width=24)
     botao2 = tk.Button(root, text="Consulta", command=busca, width=24)
     botao3 = tk.Button(root, text="In-ordem", command=handle_in_ordem, width=24)
     botao4 = tk.Button(root, text="Pre-ordem", command=handle_pre_ordem, width=24)
     botao5 = tk.Button(root, text="Pós-ordem", command=handle_pos_ordem, width=24)
 
-    visualizacao = tk.Label(root, text="Pilha: ", font=("Arial", 12), bg='#DEB887')
+    visualizacao = tk.Label(root, text="ABP: ", font=("Arial", 12), bg='#DEB887')
     listaview = tk.Canvas(root, width=1080, height=490, bg="white")
     listaview.pack()
 
@@ -890,7 +894,6 @@ def telaABP():
     visualizacao.place(x=360, y=230)
     listaview.place(x=0, y=250)
 
-    # draw_tree(arvore.raiz, root_x, root_y, 1)
 
 
 root = tk.Tk()
